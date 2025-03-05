@@ -1,0 +1,30 @@
+- model: logistic.vehiclephotocategory
+  pk: 1
+  fields:
+    name: Аукцион в США
+    name_en: USA Auction
+    name_ru: Аукцион в США
+- model: logistic.vehiclephotocategory
+  pk: 2
+  fields:
+    name: Эвакуатор (Рекавери)
+    name_en: Tow truck (Recovery)
+    name_ru: Эвакуатор (Рекавери)
+- model: logistic.vehiclephotocategory
+  pk: 3
+  fields:
+    name: Портовый терминал в США
+    name_en: USA Port yard
+    name_ru: Портовый терминал в США
+- model: logistic.vehiclephotocategory
+  pk: 4
+  fields:
+    name: Портовый терминал в ОАЭ
+    name_en: UAE Port yard
+    name_ru: Портовый терминал в ОАЭ
+- model: logistic.vehiclephotocategory
+  pk: 5
+  fields:
+    name: Иран
+    name_en: Iran
+    name_ru: Иран

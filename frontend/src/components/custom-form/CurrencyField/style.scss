@@ -1,0 +1,39 @@
+.currency-field {
+  width: 100%;
+  .currency {
+    cursor: pointer !important;
+    p{
+      &::selection {
+        background: transparent;
+      }
+      &::-moz-selection {
+        background: transparent;
+      }
+    }
+  }
+  .hidden {
+    display: none;
+  }
+  .MuiInputAdornment-root,.MuiOutlinedInput-root {
+    cursor: default;
+
+  }
+  input {
+    //cursor: default;
+    //caret-color: transparent;
+    //&::selection {
+    //  background: transparent;
+    //}
+    //&::-moz-selection {
+    //  background: transparent;
+    //}
+  }
+  .MuiBadge-root {
+    display: unset;
+  }
+  .MuiBadge-root.hide {
+    .MuiBadge-badge {
+      display: none;
+    }
+  }
+}

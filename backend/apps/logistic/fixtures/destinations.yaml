@@ -1,0 +1,179 @@
+- model: logistic.deliverydestination
+  pk: 1
+  fields:
+    country: Таджикистан
+    country_en: Tajikistan
+    country_ru: Таджикистан
+    city: Душанбе
+    city_en: Dushanbe
+    city_ru: Душанбе
+    icon: 1
+
+- model: main.file
+  pk: 1
+  fields:
+    file: tj.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 2
+  fields:
+    country: Туркменистан
+    country_en: Turkmenistan
+    country_ru: Туркменистан
+    city: Ашхабад
+    city_en: Ashgabat
+    city_ru: Ашхабад
+    icon: 2
+
+- model: main.file
+  pk: 2
+  fields:
+    file: tm.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 3
+  fields:
+    country: Казахстан
+    country_en: Kazakhstan
+    country_ru: Казахстан
+    city: Актау
+    city_en: Aktau
+    city_ru: Актау
+    icon: 3
+
+- model: main.file
+  pk: 3
+  fields:
+    file: kz.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 4
+  fields:
+    country: Россия
+    country_en: Russia
+    country_ru: Россия
+    city: Астрахань
+    city_en: Astrakhan
+    city_ru: Астрахань
+    icon: 4
+
+- model: main.file
+  pk: 4
+  fields:
+    file: ru.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 5
+  fields:
+    country: Узбекистан
+    country_en: Uzbekistan
+    country_ru: Узбекистан
+    city: Бухара
+    city_en: Bukhara
+    city_ru: Бухара
+    icon: 5
+
+- model: main.file
+  pk: 5
+  fields:
+    file: uz.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 6
+  fields:
+    country: Киргизстан
+    country_en: Kyrgyzstan
+    country_ru: Киргизстан
+    city: Ош
+    city_en: Osh
+    city_ru: Ош
+    icon: 6
+
+- model: main.file
+  pk: 6
+  fields:
+    file: kg.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 7
+  fields:
+    country: Грузия
+    country_en: Georgia
+    country_ru: Грузия
+    city: Тбилиси
+    city_en: Tbilisi
+    city_ru: Тбилиси
+    icon: 7
+
+- model: main.file
+  pk: 7
+  fields:
+    file: ge.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 8
+  fields:
+    country: Казахстан
+    country_en: Kazakhstan
+    country_ru: Казахстан
+    city: Яллама
+    city_en: Yallama
+    city_ru: Яллама
+    icon: 8
+
+- model: main.file
+  pk: 8
+  fields:
+    file: kz.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 9
+  fields:
+    country: Азербайджан
+    country_en: Azerbaijan
+    country_ru: Азербайджан
+    city: Баку
+    city_en: Baku
+    city_ru: Баку
+    icon: 9
+
+- model: main.file
+  pk: 9
+  fields:
+    file: az.svg
+    type: destination_icon
+    thumb: ''
+
+- model: logistic.deliverydestination
+  pk: 10
+  fields:
+    country: Афганистан
+    country_en: Afghanistan
+    country_ru: Афганистан
+    city: Ислам-Кала
+    city_en: Islam Qala
+    city_ru: Ислам-Кала
+    icon: 10
+
+- model: main.file
+  pk: 10
+  fields:
+    file: af.svg
+    type: destination_icon
+    thumb: ''

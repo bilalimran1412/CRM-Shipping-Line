@@ -1,0 +1,404 @@
+# usa
+- model: logistic.shipmenttype
+  pk: 1
+  fields:
+    name: Из США в ОАЭ
+    name_en: From the USA to the UAE
+    name_ru: Из США в ОАЭ
+    icon: null
+    initial_status: 1
+    complete_status: 2
+
+- model: logistic.deliverystatus
+  pk: 1
+  fields:
+    name: Отправлен из США в ОАЭ
+    name_en: Shipped from the USA to the UAE
+    name_ru: Отправлен из США в ОАЭ
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 2
+  fields:
+    name: Прибыла в ОАЭ (из США)
+    name_en: Arrived in the UAE (from the USA)
+    name_ru: Прибыла в ОАЭ (из США)
+    icon: null
+
+# korea
+- model: logistic.shipmenttype
+  pk: 2
+  fields:
+    name: Из Кореи в ОАЭ
+    name_en: From Korea to the UAE
+    name_ru: Из Кореи в ОАЭ
+    icon: null
+    initial_status: 3
+    complete_status: 4
+
+- model: logistic.deliverystatus
+  pk: 3
+  fields:
+    name: Отправлен из Кореи в ОАЭ
+    name_en: Shipped from Korea to the UAE
+    name_ru: Отправлен из Кореи в ОАЭ
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 4
+  fields:
+    name: Прибыла в ОАЭ (из Кореи)
+    name_en: Arrived in the UAE (from Korea)
+    name_ru: Прибыла в ОАЭ (из Кореи)
+    icon: null
+
+# europe
+- model: logistic.shipmenttype
+  pk: 3
+  fields:
+    name: Из Европы в ОАЭ
+    name_en: From Europe to the UAE
+    name_ru: Из Европы в ОАЭ
+    icon: null
+    initial_status: 5
+    complete_status: 6
+
+- model: logistic.deliverystatus
+  pk: 5
+  fields:
+    name: Отправлен из Европы в ОАЭ
+    name_en: Shipped from Europe to the UAE
+    name_ru: Отправлен из Европы в ОАЭ
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 6
+  fields:
+    name: Прибыла в ОАЭ (из Европы)
+    name_en: Arrived in the UAE (from Europe)
+    name_ru: Прибыла в ОАЭ (из Европы)
+    icon: null
+
+# japan
+- model: logistic.shipmenttype
+  pk: 4
+  fields:
+    name: Из Японии в ОАЭ
+    name_en: From Japan to the UAE
+    name_ru: Из Японии в ОАЭ
+    icon: null
+    initial_status: 7
+    complete_status: 8
+
+- model: logistic.deliverystatus
+  pk: 7
+  fields:
+    name: Отправлен из Японии в ОАЭ
+    name_en: Shipped from Japan to the UAE
+    name_ru: Отправлен из Японии в ОАЭ
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 8
+  fields:
+    name: Прибыла в ОАЭ (из Японии)
+    name_en: Arrived in the UAE (from Japan)
+    name_ru: Прибыла в ОАЭ (из Японии)
+    icon: null
+
+# iran to UAE
+- model: logistic.shipmenttype
+  pk: 5
+  fields:
+    name: Из ОАЭ в Иран
+    name_en: From the UAE to Iran
+    name_ru: Из ОАЭ в Иран
+    icon: null
+    initial_status: 9
+    complete_status: 10
+
+- model: logistic.deliverystatus
+  pk: 9
+  fields:
+    name: Отправлен из ОАЭ в Иран
+    name_en: Shipped from the UAE to Iran
+    name_ru: Отправлен из ОАЭ в Иран
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 10
+  fields:
+    name: Прибыла в Иран (из ОАЭ)
+    name_en: Arrived in Iran (from the UAE)
+    name_ru: Прибыла в Иран (из ОАЭ)
+    icon: null
+
+# iran to Turkmenistan border
+- model: logistic.shipmenttype
+  pk: 6
+  fields:
+    name: Из Ирана к границе с Туркменистаном
+    name_en: From Iran to the Turkmenistan border
+    name_ru: Из Ирана к границе с Туркменистаном
+    icon: null
+    initial_status: 11
+    complete_status: 12
+
+- model: logistic.deliverystatus
+  pk: 11
+  fields:
+    name: Отправлен из Ирана к границе с Туркменистаном
+    name_en: Shipped from Iran to the Turkmenistan border
+    name_ru: Отправлен из Ирана к границе с Туркменистаном
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 12
+  fields:
+    name: Прибыла к границе с Туркменистаном (из Ирана)
+    name_en: Arrived at the Turkmenistan border (from Iran)
+    name_ru: Прибыла к границе с Туркменистаном (из Ирана)
+    icon: null
+
+# Turkmenistan border to Uzbekistan
+- model: logistic.shipmenttype
+  pk: 7
+  fields:
+    name: От границы с Туркменистаном в Узбекистан
+    name_en: From the Turkmenistan border to Uzbekistan
+    name_ru: От границы с Туркменистаном в Узбекистан
+    icon: null
+    initial_status: 13
+    complete_status: 14
+
+- model: logistic.deliverystatus
+  pk: 13
+  fields:
+    name: Отправлен от границы с Туркменистаном в Узбекистан
+    name_en: Shipped from the Turkmenistan border to Uzbekistan
+    name_ru: Отправлен от границы с Туркменистаном в Узбекистан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 14
+  fields:
+    name: Прибыла в Узбекистан (от границы с Туркменистаном)
+    name_en: Arrived in Uzbekistan (from the Turkmenistan border)
+    name_ru: Прибыла в Узбекистан (от границы с Туркменистаном)
+    icon: null
+
+# Uzbekistan to Tajikistan
+- model: logistic.shipmenttype
+  pk: 8
+  fields:
+    name: Из Узбекистана в Таджикистан
+    name_en: From Uzbekistan to Tajikistan
+    name_ru: Из Узбекистана в Таджикистан
+    icon: null
+    initial_status: 15
+    complete_status: 16
+
+- model: logistic.deliverystatus
+  pk: 15
+  fields:
+    name: Отправлен из Узбекистана в Таджикистан
+    name_en: Shipped from Uzbekistan to Tajikistan
+    name_ru: Отправлен из Узбекистана в Таджикистан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 16
+  fields:
+    name: Прибыла в Таджикистан (из Узбекистана)
+    name_en: Arrived in Tajikistan (from Uzbekistan)
+    name_ru: Прибыла в Таджикистан (из Узбекистана)
+    icon: null
+
+# Uzbekistan to Kyrgyzstan
+- model: logistic.shipmenttype
+  pk: 9
+  fields:
+    name: Из Узбекистана в Киргизстан
+    name_en: From Uzbekistan to Kyrgyzstan
+    name_ru: Из Узбекистана в Киргизстан
+    icon: null
+    initial_status: 17
+    complete_status: 18
+
+- model: logistic.deliverystatus
+  pk: 17
+  fields:
+    name: Отправлен из Узбекистана в Киргизстан
+    name_en: Shipped from Uzbekistan to Kyrgyzstan
+    name_ru: Отправлен из Узбекистана в Киргизстан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 18
+  fields:
+    name: Прибыла в Киргизстан (из Узбекистана)
+    name_en: Arrived in Kyrgyzstan (from Uzbekistan)
+    name_ru: Прибыла в Киргизстан (из Узбекистана)
+    icon: null
+
+# Uzbekistan to Kazakhstan
+- model: logistic.shipmenttype
+  pk: 10
+  fields:
+    name: Из Узбекистана в Казахстан
+    name_en: From Uzbekistan to Kazakhstan
+    name_ru: Из Узбекистана в Казахстан
+    icon: null
+    initial_status: 19
+    complete_status: 20
+
+- model: logistic.deliverystatus
+  pk: 19
+  fields:
+    name: Отправлен из Узбекистана в Казахстан
+    name_en: Shipped from Uzbekistan to Kazakhstan
+    name_ru: Отправлен из Узбекистана в Казахстан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 20
+  fields:
+    name: Прибыла в Казахстан (из Узбекистана)
+    name_en: Arrived in Kazakhstan (from Uzbekistan)
+    name_ru: Прибыла в Казахстан (из Узбекистана)
+    icon: null
+
+# Turkmenistan border to Turkmenistan
+- model: logistic.shipmenttype
+  pk: 11
+  fields:
+    name: От границы с Туркменистаном в Туркменистан
+    name_en: From the Turkmenistan border to Turkmenistan
+    name_ru: От границы с Туркменистаном в Туркменистан
+    icon: null
+    initial_status: 21
+    complete_status: 22
+
+- model: logistic.deliverystatus
+  pk: 21
+  fields:
+    name: Отправлен от границы с Туркменистаном в Туркменистан
+    name_en: Shipped from the Turkmenistan border to Turkmenistan
+    name_ru: Отправлен от границы с Туркменистаном в Туркменистан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 22
+  fields:
+    name: Прибыла в Туркменистан (от границы с Туркменистаном)
+    name_en: Arrived in Turkmenistan (from the Turkmenistan border)
+    name_ru: Прибыла в Туркменистан (от границы с Туркменистаном)
+    icon: null
+
+# Iran to Georgia
+- model: logistic.shipmenttype
+  pk: 12
+  fields:
+    name: Из Ирана в Грузию
+    name_en: From Iran to Georgia
+    name_ru: Из Ирана в Грузию
+    icon: null
+    initial_status: 23
+    complete_status: 24
+
+- model: logistic.deliverystatus
+  pk: 23
+  fields:
+    name: Отправлен из Ирана в Грузию
+    name_en: Shipped from Iran to Georgia
+    name_ru: Отправлен из Ирана в Грузию
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 24
+  fields:
+    name: Прибыла в Грузию (из Ирана)
+    name_en: Arrived in Georgia (from Iran)
+    name_ru: Прибыла в Грузию (из Ирана)
+    icon: null
+
+# Iran to Azerbaijan
+- model: logistic.shipmenttype
+  pk: 13
+  fields:
+    name: Из Ирана в Азербайджан
+    name_en: From Iran to Azerbaijan
+    name_ru: Из Ирана в Азербайджан
+    icon: null
+    initial_status: 25
+    complete_status: 26
+
+- model: logistic.deliverystatus
+  pk: 25
+  fields:
+    name: Отправлен из Ирана в Азербайджан
+    name_en: Shipped from Iran to Azerbaijan
+    name_ru: Отправлен из Ирана в Азербайджан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 26
+  fields:
+    name: Прибыла в Азербайджан (из Ирана)
+    name_en: Arrived in Azerbaijan (from Iran)
+    name_ru: Прибыла в Азербайджан (из Ирана)
+    icon: null
+
+# Iran to Afghanistan
+- model: logistic.shipmenttype
+  pk: 14
+  fields:
+    name: Из Ирана в Афганистан
+    name_en: From Iran to Afghanistan
+    name_ru: Из Ирана в Афганистан
+    icon: null
+    initial_status: 27
+    complete_status: 28
+
+- model: logistic.deliverystatus
+  pk: 27
+  fields:
+    name: Отправлен из Ирана в Афганистан
+    name_en: Shipped from Iran to Afghanistan
+    name_ru: Отправлен из Ирана в Афганистан
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 28
+  fields:
+    name: Прибыла в Афганистан (из Ирана)
+    name_en: Arrived in Afghanistan (from Iran)
+    name_ru: Прибыла в Афганистан (из Ирана)
+    icon: null
+
+# Iran to Russia
+- model: logistic.shipmenttype
+  pk: 15
+  fields:
+    name: Из Ирана в Россию
+    name_en: From Iran to Russia
+    name_ru: Из Ирана в Россию
+    icon: null
+    initial_status: 29
+    complete_status: 30
+
+- model: logistic.deliverystatus
+  pk: 29
+  fields:
+    name: Отправлен из Ирана в Россию
+    name_en: Shipped from Iran to Russia
+    name_ru: Отправлен из Ирана в Россию
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 30
+  fields:
+    name: Прибыла в Россию (из Ирана)
+    name_en: Arrived in Russia (from Iran)
+    name_ru: Прибыла в Россию (из Ирана)
+    icon: null

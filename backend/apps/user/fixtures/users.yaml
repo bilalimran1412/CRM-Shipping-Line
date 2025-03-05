@@ -1,0 +1,10 @@
+# USERS
+- model: user.user
+  pk: 1
+  fields:
+    username: admin
+    password: pbkdf2_sha256$720000$9PPkdV4p5gbwxlkVaEFf7r$c9t6kQCLumC8YBfdUEyHRUt5qXdnC/KcjwPzvGlQpVE=
+    first_name: 'Admin'
+    is_active: true
+    is_staff: true
+    is_superuser: true

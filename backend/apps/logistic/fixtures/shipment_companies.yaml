@@ -1,0 +1,59 @@
+- model: logistic.shipmentcompany
+  pk: 1
+  fields:
+    name: ASL Shipping
+    icon: null
+    shipment_type:
+    - 1
+- model: logistic.shipmentcompany
+  pk: 2
+  fields:
+    name: North America
+    icon: null
+    shipment_type:
+    - 1
+- model: logistic.shipmentcompany
+  pk: 3
+  fields:
+    name: SBT Shipping
+    icon: null
+    shipment_type:
+    - 2
+    - 3
+    - 4
+- model: logistic.shipmentcompany
+  pk: 4
+  fields:
+    name: Shark Shipping
+    icon: null
+    shipment_type:
+    - 5
+- model: logistic.shipmentcompany
+  pk: 5
+  fields:
+    name: Al Shara
+    icon: null
+    shipment_type:
+    - 5
+- model: logistic.shipmentcompany
+  pk: 6
+  fields:
+    name: Faroro
+    icon: null
+    shipment_type:
+    - 6
+    - 12
+    - 13
+    - 14
+    - 15
+- model: logistic.shipmentcompany
+  pk: 7
+  fields:
+    name: Melegush
+    icon: null
+    shipment_type:
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11

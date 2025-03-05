@@ -1,0 +1,29 @@
+.datatable {
+  tbody.light {
+    .MuiTableRow-root {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+
+      &:nth-of-type(even) {
+        background-color: rgba(145, 158, 171, 0.08);
+      }
+
+      &:last-child {
+        border-bottom: unset;
+      }
+    }
+  }
+
+  tbody.dark {
+    .MuiTableRow-root {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.48);
+
+      &:nth-of-type(even) {
+        background-color: rgba(145, 158, 171, 0.08);
+      }
+
+      &:last-child {
+        border-bottom: unset;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+- model: logistic.deliverystatus
+  pk: 31
+  fields:
+    name: Машина в США
+    name_en: Vehicle in the USA
+    name_ru: Машина в США
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 32
+  fields:
+    name: Машина в Японии
+    name_en: Vehicle in Japan
+    name_ru: Машина в Японии
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 33
+  fields:
+    name: Машина в Европе
+    name_en: Vehicle in Europe
+    name_ru: Машина в Европе
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 34
+  fields:
+    name: Машина в ОАЭ
+    name_en: Vehicle in the UAE
+    name_ru: Машина в ОАЭ
+    icon: null
+
+- model: logistic.deliverystatus
+  pk: 35
+  fields:
+    name: ОАЭ, Порт Джебель Али
+    name_en: UAE, Port Jebel Ali
+    name_ru: ОАЭ, Порт Джебель Али
+    icon: null
