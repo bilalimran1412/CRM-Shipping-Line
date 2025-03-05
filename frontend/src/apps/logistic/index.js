@@ -6,6 +6,7 @@ import shipmentType from "./shipment-type"
 import shipmentCompany from "./shipment-company"
 import vehiclePhotoCategory from "./vehicle-photo-category"
 import shipment from "./shipment"
+import invoice from "./invoice"
 import {VIEW_PERMISSION} from "./delivery-status/config";
 
 
@@ -17,6 +18,7 @@ const apps = [
   shipmentCompany,
   vehiclePhotoCategory,
   shipment,
+  invoice,
 ]
 
 export const navigation = (checkPermission) => {
@@ -34,6 +36,7 @@ export const navigation = (checkPermission) => {
         ...shipmentType.navigation(checkPermission),
         ...shipmentCompany.navigation(checkPermission),
         ...vehiclePhotoCategory.navigation(checkPermission),
+        ...invoice.navigation(checkPermission),
       ],
     },
   ]

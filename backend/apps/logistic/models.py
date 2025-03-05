@@ -9,6 +9,7 @@ from .querysets.shipment_company import ShipmentCompanyQuerySet
 from .querysets.shipment import ShipmentQuerySet
 from .querysets.vehicle_photo_category import VehiclePhotoCategoryManager
 from .querysets.app_config import AppConfigQuerySet
+from .querysets.invoice import InvoiceQuerySet
 import datetime
 
 SHIPMENT_STATUS = [
@@ -142,3 +143,15 @@ class LogisticConfig(BaseModel):
 
 	objects = AppConfigQuerySet()
 	history = HistoricalRecords()
+
+class Invoice(BaseModel):
+	name = models.CharField(max_length=255)
+	datetime = models.DateTimeField(default=datetime.datetime.now)
+	data = models.TextField(null=True, blank=True)
+	template = models.CharField(max_length=255, default="MultiVehicleInvoice", null=True, blank=True)
+
+	objects = InvoiceQuerySet.as_manager()
+
+class InvoiceVehicle(BaseModel):
+	invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='vehicles')
+	vehicle = models.ForeignKey('Vehicle', on_delete=models.PROTECT)
