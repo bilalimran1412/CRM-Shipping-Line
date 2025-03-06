@@ -1,44 +1,44 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from logistic.models import Pricing, PricingType
+from core.utils.permission import action_permission
+from core.utils.rest import ModelPermission, CustomPagination
+from ..serializers import PricingSerializer, PricingListSerializer, PricingTypeSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.generics import get_object_or_404
 
-from finance.models import CustomerInvoiceDetailTemplate, CustomerInvoiceDetailTemplateItem
-from core.utils.permission import action_permission
-from core.utils.rest import ModelPermission, CustomPagination
-# Assuming you have these serializers in your serializers.py
-from ..serializers import (
-    CustomerInvoiceDetailTemplateSerializer, 
-    CustomerInvoiceDetailTemplateListSerializer
-)
-
-CREATE_FORM_PERMISSION = action_permission('GET', 'customer_invoice_detail_template.add_customer_invoice_detail_template')
-EDIT_FORM_PERMISSION = action_permission('GET', 'customer_invoice_detail_template.change_customer_invoice_detail_template')
+CREATE_FORM_PERMISSION = action_permission('GET', 'logistic.add_pricing')
+EDIT_FORM_PERMISSION = action_permission('GET', 'logistic.change_pricing')
 
 class ViewSet(viewsets.ModelViewSet):
     permission_classes = [ModelPermission]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    search_fields = ['name']
-    ordering_fields = ['created_at', 'name']
-    ordering = ['-created_at']
+    search_fields = ['type__name']
+    ordering_fields = ['created_at', 'date', 'type__name']
+    ordering = ['-date']
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return CustomerInvoiceDetailTemplateListSerializer
-        return CustomerInvoiceDetailTemplateSerializer
+            return PricingListSerializer
+        return PricingSerializer
 
     def get_queryset(self):
-        return CustomerInvoiceDetailTemplate.objects.prefetch_related(
-            'customerinvoicedetailtemplateitem_set'
+        return Pricing.objects.select_related(
+            'type',
+            'file'
         )
 
     def form_data(self, mode, pk=None):
-        # Add any common form data here that might be needed across different form endpoints
-        data = {}
+        pricing_types = PricingType.objects.all()
+        types = PricingTypeSerializer(pricing_types, many=True)
+        
+        data = {
+            "pricing_types": types.data
+        }
         return data
 
     @action(methods=['GET'], detail=False, url_path='filter-data')
@@ -54,10 +54,13 @@ class ViewSet(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=True, url_path='form-data', permission_classes=EDIT_FORM_PERMISSION)
     def edit_form_data(self, request, pk):
-        instance = get_object_or_404(self.get_queryset(), pk=pk)
-        data = self.get_serializer(instance)
-        response_data = {
+        instance = get_object_or_404(Pricing.objects.select_related(
+            'type',
+            'file'
+        ), pk=pk)
+        data = PricingSerializer(instance)
+        data = {
             "data": data.data,
             **self.form_data('edit')
         }
-        return Response(response_data, status=HTTP_200_OK)
+        return Response(data, status=HTTP_200_OK)

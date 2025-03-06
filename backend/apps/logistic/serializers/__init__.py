@@ -8,3 +8,4 @@ from .vehicle import *
 from .vehicle_photo_category import *
 from .vehicle_task_type import *
 from .vehicle_task import *
+from .pricing import *

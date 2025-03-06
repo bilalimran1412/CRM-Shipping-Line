@@ -21,4 +21,6 @@ register('vehicle-photo-category', vehicle_photo_category.ViewSet, 'vehicle-phot
 register('invoice', invoice.ViewSet, 'invoice')
 register('vehicle-task', vehicle_task.ViewSet, 'vehicle-task')
 register('vehicle-task-type', vehicle_task_type.ViewSet, 'vehicle-task-type')
+register('pricing', pricing.ViewSet, 'pricing')
+
 urlpatterns += router.urls

@@ -12,6 +12,8 @@ from .querysets.app_config import AppConfigQuerySet
 from .querysets.invoice import InvoiceQuerySet
 from .querysets.vehicle_task import VehicleTaskQuerySet
 from .querysets.vehicle_task_type import VehicleTaskTypeQuerySet
+from .querysets.pricing import PricingQuerySet
+from .querysets.pricing_type import PricingTypeQuerySet
 import datetime
 
 SHIPMENT_STATUS = [
@@ -182,6 +184,8 @@ class VehicleTask(BaseModel):
 
 class PricingType(BaseModel):
 	name = models.CharField(max_length=255)
+	
+	objects = PricingTypeQuerySet.as_manager()
 
 	def __str__(self):
 		return self.name
@@ -190,6 +194,8 @@ class Pricing(BaseModel):
 	type = models.ForeignKey('PricingType', on_delete=models.PROTECT)
 	date = models.DateField()
 	file = models.ForeignKey('main.File', on_delete=models.PROTECT)
+
+	objects = PricingQuerySet.as_manager()
 
 	class Meta:
 		ordering = ['-date']
