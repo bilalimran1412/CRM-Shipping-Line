@@ -19,5 +19,6 @@ register('shipment', shipment.ViewSet, 'shipment')
 register('shipment-company', shipment_company.ViewSet, 'shipment-company')
 register('vehicle-photo-category', vehicle_photo_category.ViewSet, 'vehicle-photo-category')
 register('invoice', invoice.ViewSet, 'invoice')
-
+register('vehicle-task', vehicle_task.ViewSet, 'vehicle-task')
+register('vehicle-task-type', vehicle_task_type.ViewSet, 'vehicle-task-type')
 urlpatterns += router.urls
