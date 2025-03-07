@@ -7,27 +7,26 @@
 
 const ru = {
   title: {
-    page: 'Типы отправки',
-    navigation: 'Типы отправки',
-    list: 'Типы отправки',
-    edit: 'Редактирование типа отправки',
-    create: 'Новый тип отправки',
-    view: 'Просмотр типа отправки',
+    page: 'Типы задач',
+    navigation: 'Типы задач',
+    list: 'Типы задач',
+    edit: 'Редактирование типа задачи',
+    create: 'Новый тип задачи',
+    view: 'Просмотр типа задачи',
   },
   create: 'Добавить',
   pcs: 'шт.',
   form: {
     main_data: 'Основные данные',
     name: 'Наименование',
-    initial_status: 'Статус при создании',
-    complete_status: 'Статус при завершении',
+    assigned_to: 'Привязан к',
     icon: 'Иконка',
 
     edit_button: 'Сохранить',
     create_button: 'Создать',
   },
   breadcrumb: {
-    main: 'Типы отправки',
+    main: 'Типы задач',
     list: 'Список',
     edit: 'Редактирование',
     create: 'Создание',
@@ -35,7 +34,6 @@ const ru = {
   },
   validator: {
     name_required: 'Наименование обязательно',
-    initial_status_required: 'Статус при создании обязателен',
   },
   filter: {
     search: 'Поиск...',

@@ -5,10 +5,10 @@ export const STORE_NAME = APP_NAME
 export const NAV_LINK = APP_NAME
 export const API_URL = 'logistic/vehicle-task-type/'
 
-export const CREATE_PERMISSION = 'logistic.add_shipmenttype'
-export const UPDATE_PERMISSION = 'logistic.change_shipmenttype'
-export const DELETE_PERMISSION = 'logistic.delete_shipmenttype'
-export const VIEW_PERMISSION = 'logistic.view_shipmenttype'
+export const CREATE_PERMISSION = 'logistic.add_vehicletasktype'
+export const UPDATE_PERMISSION = 'logistic.change_vehicletasktype'
+export const DELETE_PERMISSION = 'logistic.delete_vehicletasktype'
+export const VIEW_PERMISSION = 'logistic.view_vehicletasktype'
 
 export const LIST_NAVIGATION = `/${ROUTE_URL}`
 export const permissions = {

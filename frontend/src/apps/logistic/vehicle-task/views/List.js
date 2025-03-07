@@ -19,12 +19,7 @@ import useWatchSearchParams from "hooks/useWatchSearchParams"
 import useApi from "hooks/useApi"
 import {convertNewlinesToBreaks, getCurrentUrlParam} from "utils"
 import {store} from "../index"
-import {
-  CREATE_PERMISSION,
-  LIST_NAVIGATION,
-  permissions,
-  ROUTE_URL
-} from "../config"
+import {CREATE_PERMISSION, LIST_NAVIGATION, permissions, ROUTE_URL} from "../config"
 import {MAIN_NAVIGATION_ROOT} from "routes/paths"
 
 import Datatable from "components/datatable/Datatable"
@@ -36,9 +31,8 @@ import ConfirmDialog from "components/confirm-dialog";
 import {useSnackbar} from "components/snackbar";
 import {useAuthContext} from "auth/useAuthContext";
 import {getCols} from "../utils";
+import {LightboxSingleImage} from "../../../../components/lightbox";
 // ----------------------------------------------------------------------
-import RHFDateField from "../../../../components/hook-form/RHFDateField";
-import {fDate} from "../../../../utils/formatTime";
 
 export default function PageOne() {
   const {themeStretch} = useSettingsContext()
@@ -54,11 +48,9 @@ export default function PageOne() {
     fetchFilterForm,
     filterFormData,
     filterFormError,
-    isFilterFormLoading,
-    context
+    isFilterFormLoading
   } = useApi(store)
   const watchSearchParams = useWatchSearchParams()
-  const {themeMode} = useSettingsContext()
   const [searchParams, setSearchParams] = useSearchParams()
   const confirmRef = useRef()
   const {enqueueSnackbar} = useSnackbar()
@@ -88,32 +80,47 @@ export default function PageOne() {
   }, [filterFormData])
   const filters = (
     <>
-      <FilterToolbar additionalFilters={[]} arrayFields={['type']}
+      <FilterToolbar additionalFilters={[]} arrayFields={['status', 'assigned_to']}
                      loading={isFilterFormLoading}
                      error={filterFormError}>
-        <Grid container spacing={3} sx={{mt: 0}}>
-          <Grid item xs={12} md={4}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={3}>
             <RHFAutocomplete
-              name="type"
-              label={translate('pricing.filter.type')}
-              options={filterFormData?.type?.map?.(({id, name}) => ({
-                label: name[currentLang.value],
+              name="status"
+              label={translate('vehicle-task.filter.status')}
+              options={filterFormData?.status?.map?.(({value, label}) => ({
+                label: label[currentLang.value],
+                value,
+              }))}
+              multiple
+              fullWidth
+              filterSelectedOptions
+              onChange={value => onFilterChange('status', value.map((value) => value?.value).join(','))}
+              size={'small'}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <RHFAutocomplete
+              name="assigned_to"
+              label={translate('vehicle-task.filter.assigned_to')}
+              options={filterFormData?.employees?.map?.(({id, full_name}) => ({
+                label: full_name,
                 value: id,
               }))}
               multiple
               fullWidth
               filterSelectedOptions
-              onChange={value => onFilterChange('type', value.join(','))}
+              onChange={value => onFilterChange('assigned_to', value.map((value) => value?.value).join(','))}
               size={'small'}
             />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={6}>
             <RHFTextField
               name={'search'}
               size={'small'}
               fullWidth
               onChange={value => onFilterChange('search', value)}
-              placeholder={translate('shipment.filter.search')}
+              placeholder={translate('vehicle.filter.search')}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -130,8 +137,8 @@ export default function PageOne() {
   )
   const onDelete = id => {
     confirmRef.current.open({
-      title: translate('pricing.delete.title'),
-      content: convertNewlinesToBreaks(translate('pricing.delete.description')),
+      title: translate('vehicle-task.delete.title'),
+      content: convertNewlinesToBreaks(translate('vehicle-task.delete.description')),
       confirmText: translate('delete'),
       confirmColor: 'error',
       cancelText: translate('cancel'),
@@ -139,7 +146,7 @@ export default function PageOne() {
       callback: (close) => {
         deleteData(id, {
           success: data => {
-            enqueueSnackbar(translate('pricing.success.delete'), {
+            enqueueSnackbar(translate('vehicle-task.success.delete'), {
               variant: 'success',
               autoHideDuration: 5 * 1000
             })
@@ -147,7 +154,7 @@ export default function PageOne() {
             close()
           },
           error: e => {
-            enqueueSnackbar(translate('pricing.error.delete'), {
+            enqueueSnackbar(translate('vehicle-task.error.delete'), {
               variant: 'error',
               autoHideDuration: 5 * 1000
             })
@@ -169,41 +176,21 @@ export default function PageOne() {
     )
   }
 
-  const tableCols = getCols({translate, currentLang, onDelete, checkPermission, context})
+  const tableCols = getCols({translate, currentLang, onDelete, checkPermission, statuses: filterFormData?.status})
+
   return (
     <>
       <Helmet>
-        <title>{translate('pricing.title.page')}</title>
+        <title>{translate('vehicle-task.title.page')}</title>
       </Helmet>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={translate('pricing.title.list')}
+          heading={translate('vehicle-task.title.list')}
           links={[
             {name: translate('breadcrumb.main'), href: MAIN_NAVIGATION_ROOT},
-            {name: translate('pricing.breadcrumb.main'), href: LIST_NAVIGATION},
-            {name: translate('pricing.breadcrumb.list')},
+            {name: translate('vehicle-task.breadcrumb.main'), href: LIST_NAVIGATION},
+            {name: translate('vehicle-task.breadcrumb.list')},
           ]}
-          action={
-            <Stack direction="row" alignItems="center" spacing={2}>
-              {/*<Button*/}
-              {/*  variant="contained"*/}
-              {/*  startIcon={<Iconify icon="file-icons:microsoft-excel"/>}*/}
-              {/*>*/}
-              {/*  {translate('export')}*/}
-              {/*</Button>*/}
-              {checkPermission(CREATE_PERMISSION) &&
-                <Button
-                  component={RouterLink}
-                  to={`/${ROUTE_URL}/create`}
-                  variant="contained"
-                  color="info"
-                  startIcon={<Iconify icon="eva:plus-fill"/>}
-                >
-                  {translate('pricing.create')}
-                </Button>
-              }
-            </Stack>
-          }
         />
 
         <Datatable

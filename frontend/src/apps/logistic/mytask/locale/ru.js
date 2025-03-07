@@ -7,38 +7,46 @@
 
 const ru = {
   title: {
-    page: 'Статусы доставки',
-    navigation: 'Статусы доставки',
-    list: 'Статусы доставки',
-    edit: 'Редактирование статуса доставки',
-    create: 'Новый статус доставки',
-    view: 'Просмотр статуса доставки',
+    page: 'Мои задачи',
+    navigation: 'Мои задачи',
+    list: 'Мои задачи',
+    edit: 'Редактирование задачи',
+    create: 'Новая задача',
+    view: 'Просмотр задачи',
   },
   create: 'Добавить',
   pcs: 'шт.',
   form: {
     main_data: 'Основные данные',
-    name: 'Наименование',
+    task_type: 'Тип задачи',
+    assigned_to: 'Привязан к',
+    note: 'Заметка',
+    status: 'Статус',
 
     edit_button: 'Сохранить',
     create_button: 'Создать',
   },
   breadcrumb: {
-    main: 'Статусы доставки',
+    main: 'Мои задачи',
     list: 'Список',
     edit: 'Редактирование',
     create: 'Создание',
     view: 'Просмотр',
   },
-  validator: {
-    name_required: 'Наименование обязательно',
-  },
   filter: {
     search: 'Поиск...',
+    status: 'Статус',
+    assigned_to: 'Привязан к',
   },
   table: {
-    name: 'Наименование',
-    icon: 'Иконка',
+    vehicle: 'Машина',
+    task_type: 'Тип задачи',
+    note: 'Заметка',
+    status: 'Статус',
+    created_at: 'Создан',
+  },
+  validator: {
+    status_required: 'Статус обязателен',
   },
   error: {
     create: 'Произошла ошибка при создании данных',

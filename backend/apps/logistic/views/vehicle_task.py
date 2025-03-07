@@ -9,6 +9,7 @@ from ..serializers import VehicleTaskSerializer, VehicleTaskListSerializer, Vehi
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
+from ..filterset import VehicleTaskFilterSet
 
 EDIT_FORM_PERMISSION = action_permission('GET', 'vehicle_task.change_vehicle_task')
 
@@ -39,7 +40,7 @@ class ViewSet(viewsets.ModelViewSet):
 	permission_classes = [ModelPermission]
 	pagination_class = CustomPagination
 	filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-	filterset_fields = ['status', 'task_type', 'vehicle']
+	filterset_class = VehicleTaskFilterSet
 	search_fields = ['note']
 	ordering_fields = ['created_at', 'status']
 	ordering = ['-created_at']
@@ -65,7 +66,7 @@ class ViewSet(viewsets.ModelViewSet):
 		
 		data = {
 			"employees": customer.data,
-			"statuses": VEHICLE_TASK_STATUSES
+			"status": VEHICLE_TASK_STATUSES
 		}
 		return data
 
@@ -84,6 +85,10 @@ class ViewSet(viewsets.ModelViewSet):
 
 	@action(methods=['GET'], detail=False, url_path='filter-data')
 	def filter_form_data(self, request):
+		return Response(self.form_data('filter'), status=status.HTTP_200_OK)
+
+	@action(methods=['GET'], detail=False, url_path='my/filter-data')
+	def my_tasks_filter_data(self, request):
 		return Response(self.form_data('filter'), status=status.HTTP_200_OK)
 
 	@action(methods=['GET'], detail=False, url_path='my')

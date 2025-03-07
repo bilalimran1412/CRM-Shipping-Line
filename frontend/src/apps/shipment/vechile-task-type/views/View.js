@@ -34,7 +34,7 @@ import {LightboxSingleImage} from "../../../../components/lightbox";
 export default function View() {
   const {themeStretch, themeMode} = useSettingsContext()
   const {id} = useParams()
-  const {translate} = useLocales()
+  const {translate, currentLang} = useLocales()
 
   const {fetchDetail, detail, detailError, clearDetailData, detailLoading} = useApi(store)
 
@@ -100,7 +100,7 @@ export default function View() {
                         <TableCell>{translate('vehicle-task-type.form.name')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.name}
+                            {detail.name?.[currentLang.value]}
                           </Typography>
                         </TableCell>
                       </TableRow>

@@ -19,8 +19,7 @@ const en = {
   form: {
     main_data: 'Main Data',
     name: 'Name',
-    initial_status: 'Initial Status',
-    complete_status: 'Complete Status',
+    assigned_to: 'Assigned to',
     icon: 'Icon',
 
     edit_button: 'Save',

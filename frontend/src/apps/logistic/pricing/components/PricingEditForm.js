@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 // form
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -12,27 +12,31 @@ import {
   Typography,
 } from '@mui/material'
 // components
-
 import FormProvider, {RHFAutocomplete, RHFSwitch, RHFTextField} from 'components/hook-form'
 import {useLocales} from "locales";
-import {editValidator} from "../validators";
+import {validator} from "../validators";
 import RHFDateTimeField from "components/hook-form/RHFDateTimeField";
 import useApi from "hooks/useApi";
 import {store} from "../index";
 import {useParams} from "react-router-dom";
 import {useSettingsContext} from "components/settings";
+import CurrencyField from "../../../../components/custom-form/CurrencyField";
+import RHFDateField from "../../../../components/hook-form/RHFDateField";
+import {fDate} from "../../../../utils/formatTime";
+import RHFFileUploadField from "../../../../components/hook-form/RHFFileUploadField";
 // ----------------------------------------------------------------------
 
 
-export default function CreateForm({isEdit = false, data, formData, onSubmit, isSubmitting}) {
+export default function EditForm({isEdit = false, data, formData, onSubmit, isSubmitting}) {
   const {translate, currentLang} = useLocales()
   const {themeMode} = useSettingsContext()
   const {customDetailPostRequest} = useApi(store)
   const {id} = useParams()
   const searchRef = useRef()
+  const initLoadRef = useRef(true); // To track the first load
   const vehicleListRef = useRef()
   const methods = useForm({
-    resolver: yupResolver(editValidator(translate)),
+    resolver: yupResolver(validator(translate)),
     defaultValues: data,
   })
 
@@ -47,33 +51,16 @@ export default function CreateForm({isEdit = false, data, formData, onSubmit, is
   } = methods
 
   useEffect(() => {
+    
     if (isEdit && data) {
       reset(data)
     }
     if (!isEdit) {
       reset(data)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, data])
 
-  const onSearchVehicle = useCallback(() => {
-    const vin = getValues('search.vin')
-    if (!vin) return null
-    const data = {
-      vin: vin
-    }
-    customDetailPostRequest(id, 'search-vehicle', data, {
-      success: data => {
-        searchRef.current.setData(data)
-      },
-      error: e => {
 
-      }
-    })
-  }, [methods])
-  const onAppend = (data) => {
-    vehicleListRef.current.append({vehicle: data})
-  }
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 
@@ -83,7 +70,7 @@ export default function CreateForm({isEdit = false, data, formData, onSubmit, is
             <Grid item xs={12} md={6}>
               <Card sx={{p: 3, height: '100%'}}>
                 <Typography variant="h6" sx={{color: 'text.disabled', mb: 2}}>
-                  {translate('customer_invoice.form.main_data')}
+                  {translate('pricing.form.main_data')}
                 </Typography>
                 <Box
                   rowGap={3}
@@ -94,51 +81,41 @@ export default function CreateForm({isEdit = false, data, formData, onSubmit, is
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
-                  <RHFTextField
-                    size="small"
-                    name={`name`}
-                    label={translate('customer_invoice.form.name')}
-                  />
                   <RHFAutocomplete
-                    name="template"
-                    label={`Template`}
+                    name="type"
+                    label={translate('pricing.form.type')}
                     size={'small'}
-                    disabled
-                    options={formData?.templates?.map?.((item) => {
-                      console.log(item)
+                    options={formData?.type?.map?.((item) => {
                       return {
-                        label: item,
-                        value: item,
+                        label: item.name,
+                        value: item.id,
                       }
                     })}
                     fullWidth
                     getOptionLabel={(option) => option.label}
                     isOptionEqualToValue={(option, value) => option.value === value.value}
                   />
-                  <RHFDateTimeField
+                  <RHFDateField
                     size={'small'}
-                    name={`datetime`}
-                    label={'date and Time'}
+                    name={`date`}
+                    label={translate('pricing.form.date')}
+                    onChange={value => setValue('date', fDate(value, 'DD/MM/YYYY'))}
                   />
-                  <RHFTextField
-                    size="small"
-                    name={`data.consignee`}
-                    label={`consignee`}
-                  />
-                  <RHFTextField
-                    size="small"
-                    name={`data.destination`}
-                    label={`destination`}
+                  <RHFFileUploadField
+                    name="file"
+                    size={'small'}
+                    type="pricing"
+                    label={translate('pricing.form.file')}
                   />
                 </Box>
               </Card>
             </Grid>
           </Grid>
-          
+
           <Card sx={{p: 3, mt: 3}}>
             <Stack alignItems="flex-end">
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? translate('customer_invoice.form.create_button') : translate('customer_invoice.form.edit_button')}
+                {!isEdit ? translate('pricing.form.create_button') : translate('pricing.form.edit_button')}
               </LoadingButton>
             </Stack>
           </Card>

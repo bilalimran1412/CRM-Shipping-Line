@@ -7,9 +7,9 @@
 
 const en = {
   title: {
-    page: 'My tasks',
-    navigation: 'My tasks',
-    list: 'My tasks',
+    page: 'Tasks',
+    navigation: 'Tasks',
+    list: 'Tasks',
     edit: 'Edit task',
     create: 'New task',
     view: 'View task',
@@ -27,7 +27,7 @@ const en = {
     create_button: 'Create',
   },
   breadcrumb: {
-    main: 'My tasks',
+    main: 'Tasks',
     list: 'List',
     edit: 'Edit',
     create: 'Create',

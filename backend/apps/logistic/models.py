@@ -182,6 +182,11 @@ class VehicleTask(BaseModel):
 
 	objects = VehicleTaskQuerySet.as_manager
 
+	class Meta:
+		permissions = (
+			("view_my_tasks", "Can view assigned tasks"),
+		)
+
 class PricingType(BaseModel):
 	name = models.CharField(max_length=255)
 	

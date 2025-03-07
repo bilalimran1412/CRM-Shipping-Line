@@ -25,6 +25,7 @@ import Error from "components/error";
 import {Helmet} from "react-helmet-async";
 import CustomBreadcrumbs from "components/custom-breadcrumbs";
 import {MAIN_NAVIGATION_ROOT} from "routes/paths";
+import Form from "../components/Form";
 import Iconify from "../../../../components/iconify";
 import {CustomAvatar} from "../../../../components/custom-avatar";
 import {LightboxSingleImage} from "../../../../components/lightbox";
@@ -36,24 +37,24 @@ export default function View() {
   const {id} = useParams()
   const {translate, currentLang} = useLocales()
 
-  const {fetchDetail, detail, detailError, clearDetailData, detailLoading} = useApi(store)
+  const {formData, formError, fetchForm, isFormLoading, clearFormData} = useApi(store)
 
   const {enqueueSnackbar} = useSnackbar()
   const navigate = useNavigate()
   const avatarRef = useRef()
   useEffect(() => {
-    fetchDetail(id)
+    fetchForm(id)
     return () => {
-      clearDetailData()
+      clearFormData()
     }
   }, [])
 
-  if (detailError) {
+  if (formError) {
     return (
-      <Error code={detailError?.status}/>
+      <Error code={formError?.status}/>
     )
   }
-  if (detailLoading || !detail) {
+  if (isFormLoading || !formData) {
     return (
       <Container maxWidth={'md'} className='relative-block'>
         <div className='loading-block loading-block-height'>
@@ -62,20 +63,21 @@ export default function View() {
       </Container>
     )
   }
-  const currentStatus = detail?.statuses?.find?.(item => item.value === detail.status)
+  const currentStatus = formData?.status?.find?.(item => item.value === formData.data.status)
+  const detail = formData.data
   return (
     <>
       <Helmet>
-        <title>{translate('my-vehicle-task.title.view')}</title>
+        <title>{translate('vehicle-task.title.view')}</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'} className='relative-block'>
         <CustomBreadcrumbs
-          heading={translate('my-vehicle-task.title.view')}
+          heading={translate('vehicle-task.title.view')}
           links={[
             {name: translate('breadcrumb.main'), href: MAIN_NAVIGATION_ROOT},
-            {name: translate('my-vehicle-task.breadcrumb.main'), href: LIST_NAVIGATION},
-            {name: translate('my-vehicle-task.breadcrumb.view')},
+            {name: translate('vehicle-task.breadcrumb.main'), href: LIST_NAVIGATION},
+            {name: translate('vehicle-task.breadcrumb.view')},
           ]}
         />
         <Grid container spacing={3}>
@@ -166,7 +168,7 @@ export default function View() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell>{translate('my-vehicle-task.table.task_type')}</TableCell>
+                        <TableCell>{translate('vehicle-task.table.task_type')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
                             {detail.task_type.name[currentLang.value]}
@@ -174,7 +176,7 @@ export default function View() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell>{translate('my-vehicle-task.table.status')}</TableCell>
+                        <TableCell>{translate('vehicle-task.table.status')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2" sx={{color: `${currentStatus?.color}.main`}}>
                             {currentStatus?.label?.[currentLang.value] || detail.status}
@@ -182,7 +184,7 @@ export default function View() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell>{translate('my-vehicle-task.table.note')}</TableCell>
+                        <TableCell>{translate('vehicle-task.table.note')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2" sx={detail.note ? undefined : {color: `error.main`}}>
                             {detail.note ?? translate('not_specified')}
@@ -190,7 +192,7 @@ export default function View() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell>{translate('my-vehicle-task.table.created_at')}</TableCell>
+                        <TableCell>{translate('vehicle-task.table.created_at')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2" sx={{color: `info.main`}}>
                             {moment(new Date(detail.created_at)).format('DD/MM/YYYY HH:mm')}

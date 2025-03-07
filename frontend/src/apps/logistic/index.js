@@ -4,7 +4,7 @@ import destination from "./destination"
 import deliveryStatus from "./delivery-status"
 import vehiclePhotoCategory from "./vehicle-photo-category"
 import invoice from "./invoice"
-import task from "./vehicletask"
+import task from "./vehicle-task"
 import customerInvoice from "./pricing"
 import mytask from "./mytask"
 import {VIEW_PERMISSION} from "./delivery-status/config";

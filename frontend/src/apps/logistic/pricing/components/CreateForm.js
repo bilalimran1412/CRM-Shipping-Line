@@ -1,29 +1,44 @@
-import { useEffect } from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react'
 // form
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm} from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
 // @mui
-import { LoadingButton } from '@mui/lab';
+import {LoadingButton} from '@mui/lab'
 import {
   Box,
   Card,
   Grid,
   Stack,
   Typography,
-} from '@mui/material';
-
+} from '@mui/material'
 // components
-import FormProvider, { RHFAutocomplete, RHFTextField, RHFDateField } from 'components/hook-form'; // Ensure RHFDateTimeField is imported
-import { useLocales } from "locales";
-import { createValidator } from "../validators";
+import FormProvider, {RHFAutocomplete, RHFSwitch, RHFTextField} from 'components/hook-form'
+import {useLocales} from "locales";
+import {validator} from "../validators";
+import RHFDateTimeField from "components/hook-form/RHFDateTimeField";
+import useApi from "hooks/useApi";
+import {store} from "../index";
+import {useParams} from "react-router-dom";
+import {useSettingsContext} from "components/settings";
+import CurrencyField from "../../../../components/custom-form/CurrencyField";
+import RHFDateField from "../../../../components/hook-form/RHFDateField";
+import {fDate} from "../../../../utils/formatTime";
+import RHFFileUploadField from "../../../../components/hook-form/RHFFileUploadField";
 // ----------------------------------------------------------------------
 
-export default function CreateForm({ isEdit = false, data, formData, onSubmit, isSubmitting }) {
-  const { translate, currentLang } = useLocales();
+
+export default function CreateForm({isEdit = false, data, formData, onSubmit, isSubmitting}) {
+  const {translate, currentLang} = useLocales()
+  const {themeMode} = useSettingsContext()
+  const {customDetailPostRequest} = useApi(store)
+  const {id} = useParams()
+  const searchRef = useRef()
+  const initLoadRef = useRef(true); // To track the first load
+  const vehicleListRef = useRef()
   const methods = useForm({
-    resolver: yupResolver(createValidator(translate)),
+    resolver: yupResolver(validator(translate)),
     defaultValues: data,
-  });
+  })
 
   const {
     reset,
@@ -31,18 +46,19 @@ export default function CreateForm({ isEdit = false, data, formData, onSubmit, i
     control,
     setValue,
     handleSubmit,
+    // formState: {isSubmitting},
     getValues
-  } = methods;
+  } = methods
 
   useEffect(() => {
     if (isEdit && data) {
-      reset(data);
+      reset(data)
     }
     if (!isEdit) {
-      reset(data);
+      reset(data)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, data]);
+  }, [isEdit, data])
+
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -51,8 +67,8 @@ export default function CreateForm({ isEdit = false, data, formData, onSubmit, i
         <Grid item xs={12} md={12}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <Card sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ color: 'text.disabled', mb: 2 }}>
+              <Card sx={{p: 3, height: '100%'}}>
+                <Typography variant="h6" sx={{color: 'text.disabled', mb: 2}}>
                   {translate('pricing.form.main_data')}
                 </Typography>
                 <Box
@@ -64,34 +80,47 @@ export default function CreateForm({ isEdit = false, data, formData, onSubmit, i
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
-                  <RHFTextField
-                    size="small"
-                    name={`name`}
-                    label={translate('pricing.form.type_name')}
+                  <RHFAutocomplete
+                    name="type"
+                    label={translate('pricing.form.type')}
+                    size={'small'}
+                    options={formData?.type?.map?.((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                      }
+                    })}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value.value}
                   />
                   <RHFDateField
                     size={'small'}
                     name={`date`}
                     label={translate('pricing.form.date')}
+                    onChange={value => setValue('date', fDate(value, 'DD/MM/YYYY'))}
                   />
-                  <RHFTextField
-                    size="small"
-                    name={`file`}
+                  <RHFFileUploadField
+                    name="file"
+                    size={'small'}
+                    type="pricing"
                     label={translate('pricing.form.file')}
-                    type="file"
                   />
                 </Box>
-                <Stack alignItems="flex-start" sx={{ mt: 3 }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!isEdit ? translate('pricing.form.create_button') : translate('pricing.form.edit_button')}
-                  </LoadingButton>
-                </Stack>
               </Card>
             </Grid>
           </Grid>
+
+          <Card sx={{p: 3, mt: 3}}>
+            <Stack alignItems="flex-end">
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                {!isEdit ? translate('pricing.form.create_button') : translate('pricing.form.edit_button')}
+              </LoadingButton>
+            </Stack>
+          </Card>
         </Grid>
       </Grid>
 
     </FormProvider>
-  );
+  )
 }

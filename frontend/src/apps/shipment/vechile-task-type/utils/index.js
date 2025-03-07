@@ -61,7 +61,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
 
     {
       id: 'actions',
-      label: 'Действия',
+      label: 'Actions',
       align: 'right',
       render: actionCellRenderer({ROUTE_URL, translate, onDelete, permissions, checkPermission})
     },

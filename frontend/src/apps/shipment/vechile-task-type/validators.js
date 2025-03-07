@@ -6,7 +6,6 @@ const validator = (mode, translate) => {
       en: yup.string().required(translate('vehicle-task-type.validator.name_required')).nullable(),
       ru: yup.string().required(translate('vehicle-task-type.validator.name_required')).nullable(),
     }),
-    initial_status: yup.string().required(translate('vehicle-task-type.validator.initial_status_required')).nullable(),
   })
 }
 

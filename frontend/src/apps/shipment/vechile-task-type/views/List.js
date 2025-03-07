@@ -19,7 +19,7 @@ import useWatchSearchParams from "hooks/useWatchSearchParams"
 import useApi from "hooks/useApi"
 import {convertNewlinesToBreaks, getCurrentUrlParam} from "utils"
 import {store} from "../index"
-import {LIST_NAVIGATION, permissions, ROUTE_URL} from "../config"
+import {CREATE_PERMISSION, LIST_NAVIGATION, permissions, ROUTE_URL} from "../config"
 import {MAIN_NAVIGATION_ROOT} from "routes/paths"
 
 import Datatable from "components/datatable/Datatable"
@@ -164,15 +164,17 @@ export default function PageOne() {
               {/*>*/}
               {/*  {translate('export')}*/}
               {/*</Button>*/}
-              <Button
-                component={RouterLink}
-                to={`/${ROUTE_URL}/create`}
-                variant="contained"
-                color="info"
-                startIcon={<Iconify icon="eva:plus-fill"/>}
-              >
-                {translate('vehicle-task-type.create')}
-              </Button>
+              {checkPermission(CREATE_PERMISSION) &&
+                <Button
+                  component={RouterLink}
+                  to={`/${ROUTE_URL}/create`}
+                  variant="contained"
+                  color="info"
+                  startIcon={<Iconify icon="eva:plus-fill"/>}
+                >
+                  {translate('vehicle-task-type.create')}
+                </Button>
+              }
             </Stack>
           }
         />

@@ -37,7 +37,7 @@ class ViewSet(viewsets.ModelViewSet):
         types = PricingTypeSerializer(pricing_types, many=True)
         
         data = {
-            "pricing_types": types.data
+            "type": types.data
         }
         return data
 

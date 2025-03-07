@@ -5,7 +5,7 @@ import {permissions, ROUTE_URL} from "../config";
 import {Link as RouterLink} from 'react-router-dom'
 import Image from "../../../../components/image";
 import {ROUTE_URL as VEHICLE_ROUTE_URL} from '../../vehicle/config'
-import moment from "moment/moment";
+import moment from "moment";
 
 export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, currentLang, statuses}) => {
   return [
@@ -25,7 +25,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
     },
     {
       id: 'task_type',
-      label: translate('my-vehicle-task.table.task_type'),
+      label: translate('vehicle-task.table.task_type'),
       align: 'left',
       width: '300px',
       render: row => {
@@ -41,7 +41,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
     },
     {
       id: 'vehicle',
-      label: translate('my-vehicle-task.table.vehicle'),
+      label: translate('vehicle-task.table.vehicle'),
       align: 'left',
       width: '300px',
       render: row => {
@@ -70,7 +70,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
 
     {
       id: 'note',
-      label: translate('my-vehicle-task.table.note'),
+      label: translate('vehicle-task.table.note'),
       align: 'left',
       width: '300px',
       render: row => (
@@ -83,7 +83,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
     },
     {
       id: 'status',
-      label: translate('my-vehicle-task.table.status'),
+      label: translate('vehicle-task.table.status'),
       align: 'left',
       width: '300px',
       render: row => (
@@ -96,7 +96,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
     },
     {
       id: 'created_at',
-      label: translate('my-vehicle-task.table.created_at'),
+      label: translate('vehicle-task.table.created_at'),
       align: 'left',
       // width: '300px',
       render: row => (

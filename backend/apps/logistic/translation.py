@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from .models import ShipmentType, DeliveryStatus, DeliveryDestination, VehiclePhotoCategory
+from .models import ShipmentType, DeliveryStatus, DeliveryDestination, VehiclePhotoCategory, VehicleTaskType
 
 
 @register(ShipmentType)
@@ -20,4 +20,8 @@ class DeliveryDestinationTranslationOptions(TranslationOptions):
 
 @register(VehiclePhotoCategory)
 class VehiclePhotoCategoryTranslationOptions(TranslationOptions):
+	fields = ('name',)
+
+@register(VehicleTaskType)
+class VehicleTaskTypeTranslationOptions(TranslationOptions):
 	fields = ('name',)

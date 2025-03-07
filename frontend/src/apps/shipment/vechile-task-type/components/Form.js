@@ -75,36 +75,19 @@ export default function Form({isEdit = false, data, formData, onSubmit, isSubmit
                     )
                   })}
                   <RHFAutocomplete
-                    name="initial_status"
-                    label={translate('vehicle-task-type.form.initial_status')}
-                    options={formData?.status?.map?.((item) => {
-                      return {
-                        label: item.name?.[currentLang.value],
-                        value: item.id,
-                      }
+                    name={`assigned_to`}
+                    label={translate('vehicle-task-type.form.assigned_to')}
+                    options={formData?.employees?.map?.((item) => {
+                      return item.id
                     })}
+                    multiple
                     fullWidth
                     getOptionLabel={(option) => option.label}
                     isOptionEqualToValue={(option, value) => option.value === value.value}
-                    // onChange={value => onFilterChange('status', value.map(({value}) => value).join(','))}
-                  />
-                  <RHFAutocomplete
-                    name="complete_status"
-                    label={translate('vehicle-task-type.form.complete_status')}
-                    options={formData?.status?.map?.((item) => {
-                      return {
-                        label: item.name?.[currentLang.value],
-                        value: item.id,
-                      }
-                    })}
-                    fullWidth
-                    getOptionLabel={(option) => option.label}
-                    isOptionEqualToValue={(option, value) => option.value === value.value}
-                    // onChange={value => onFilterChange('status', value.map(({value}) => value).join(','))}
                   />
                   <RHFFileUploadField
                     name="icon"
-                    type="destination_icon"
+                    type="vehicle_task_icon"
                     label={translate('vehicle-task-type.form.icon')}
                   />
                 </Box>

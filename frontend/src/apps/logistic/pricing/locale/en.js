@@ -17,11 +17,12 @@ const en = {
   create: 'Add',
   form: {
     main_data: 'Main Data',
-    name: 'Name',
-    date : 'Date',
+    type: 'Type',
+    date: 'Date',
+    file: 'File',
 
-    edit_button: 'Save',
-    create_button: 'Create',
+    edit_button: 'save',
+    create_button: 'save',
   },
   breadcrumb: {
     main: 'Customer invoices',
@@ -34,11 +35,12 @@ const en = {
     name_required: 'Name is required',
   },
   filter: {
+    type: 'Type',
     search: 'Search...',
   },
   table: {
-    name: 'Name',
-    icon: 'Icon',
+    type: 'Type',
+    date: 'Date',
   },
   error: {
     create: 'Error occurred while creating data',

@@ -10,7 +10,6 @@ import {MAIN_NAVIGATION_ROOT} from 'routes/paths'
 import {useSettingsContext} from 'components/settings'
 import CustomBreadcrumbs from 'components/custom-breadcrumbs'
 // sections
-import EditForm from '../components/PricingEditForm'
 import useApi from "../../../../hooks/useApi"
 import {store} from "../index"
 import {useEffect, useMemo} from "react"
@@ -20,6 +19,8 @@ import {LIST_NAVIGATION, ROUTE_URL} from "../config"
 import {useLocales} from "../../../../locales";
 import Error from "../../../../components/error";
 import CreateForm from "../components/CreateForm";
+import moment from "moment/moment";
+
 // ----------------------------------------------------------------------
 
 export default function UserEditPage() {
@@ -40,9 +41,7 @@ export default function UserEditPage() {
   }, [])
   const defaultValues = useMemo(
     () => {
-      return {
-        datetime: new Date()
-      }
+      return {}
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [formData]
@@ -50,7 +49,8 @@ export default function UserEditPage() {
   const onSubmit = values => {
     const data = {
       ...values,
-      // plan: values?.plan?.value || null,
+      file: values?.file?.id || null,
+      date: moment(new Date(values.date)).format('YYYY-MM-DD'),
       // customer: values?.customer?.value || null,
     }
     createData(data, {
@@ -59,7 +59,7 @@ export default function UserEditPage() {
           variant: 'success',
           autoHideDuration: 5 * 1000
         })
-        navigate(`/${ROUTE_URL}/edit/${data.id}`)
+        navigate(`/${ROUTE_URL}`)
       },
       error: e => {
         enqueueSnackbar(translate('pricing.error.create'), {

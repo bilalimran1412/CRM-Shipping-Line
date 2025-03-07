@@ -11,19 +11,25 @@ import {
   Typography,
   TableRow as MUITableRow
 } from "@mui/material";
-import {CustomAvatar} from "components/custom-avatar";
 import {actionCellRenderer} from "components/datatable/utils";
 import {permissions, ROUTE_URL} from "../config";
 import {Link as RouterLink} from 'react-router-dom'
-import Image from "../../../../components/image";
-import moment from "moment/moment";
 import Iconify from "../../../../components/iconify";
 import Scrollbar from "../../../../components/scrollbar/Scrollbar";
 import {TableHeadCustom} from "../../../../components/table";
 import TableRow from "../../../../components/datatable/TableRow";
+import Image from "../../../../components/image";
+import moment from "moment/moment";
+import DownloadAction from "../components/DownloadAction";
+import {fNumber, numberSeparatorValue} from "../../../../utils/formatNumber";
 
-
-export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPermission, currentLang}) => {
+export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPermission, currentLang, context}) => {
+  const findTemplate = code => {
+    return context?.templates?.find(item => item.value === code)?.name
+  }
+  const customActions = (row) => (
+    <DownloadAction row={row}/>
+  )
   return [
     // {
     //   id: 'checkbox',
@@ -40,42 +46,40 @@ export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPe
       render: row => row.id,
     },
     {
-      id: 'name',
-      label: translate('pricing.table.name'),
+      id: 'type',
+      label: translate('pricing.table.type'),
       align: 'left',
-      width: '100px',
+      render: row => row.type.name,
+    },
+
+    {
+      id: 'date',
+      label: translate('pricing.table.date'),
+      align: 'left',
+      width: '250px',
       render: row => {
         // row.first_name
         return (
-          <Typography variant="subtitle1">
-            {row.name}
+          <Typography variant="subtitle1" sx={{color: `success.main`}}>
+            {moment(new Date(row.date)).format('DD/MM/YYYY')}
           </Typography>
         )
       },
       sort: true,
       pin: 'left',
-    }, 
-    {
-      id: 'date',
-      label: translate('pricing.table.date'),
-      align: 'left',
-            width: '250px',
-            render: row => {
-              // row.first_name
-              return (
-                <Typography variant="subtitle1">
-                  {moment(new Date(row.datetime)).format('YYYY-MM-DD')}
-                </Typography>
-              )
-            },
-      sort: true,
-      pin: 'left',
     },
     {
       id: 'actions',
-      label: 'actions',
+      label: translate('actions'),
       align: 'right',
-      render: actionCellRenderer({ROUTE_URL, translate, onDelete, onDownload, permissions, checkPermission})
+      render: actionCellRenderer({
+        ROUTE_URL,
+        translate,
+        onDelete,
+        permissions: {...permissions, view: ''},
+        checkPermission,
+        customActions
+      })
     },
   ]
 }
