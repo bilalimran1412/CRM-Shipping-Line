@@ -115,7 +115,7 @@ class ShipmentType(BaseModel):
 
 class DeliveryStatus(BaseModel):
 	name = models.CharField(max_length=255)
-	# status_type = models.CharField(max_length=50, choices=DELIVERY_STATUS_TYPE, null=True, blank=True)
+	status_type = models.CharField(max_length=50, choices=DELIVERY_STATUS_TYPE, null=True, blank=True)
 	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
 
 	objects = DeliveryStatusManager()

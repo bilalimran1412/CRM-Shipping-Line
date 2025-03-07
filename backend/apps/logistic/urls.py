@@ -22,5 +22,6 @@ register('invoice', invoice.ViewSet, 'invoice')
 register('vehicle-task', vehicle_task.ViewSet, 'vehicle-task')
 register('vehicle-task-type', vehicle_task_type.ViewSet, 'vehicle-task-type')
 register('pricing', pricing.ViewSet, 'pricing')
+register('dashboard', dashboard.ViewSet, 'dashboard')
 
 urlpatterns += router.urls
