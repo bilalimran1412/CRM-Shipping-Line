@@ -14,9 +14,10 @@ NavList.propTypes = {
   data: PropTypes.object,
   depth: PropTypes.number,
   hasChild: PropTypes.bool,
+  onSubMenuSelect: PropTypes.func,
 }
 
-export default function NavList({ data, depth, hasChild }) {
+export default function NavList({ data, depth, hasChild, onSubMenuSelect }) {
   const { pathname } = useLocation()
 
   const { active, isExternalLink } = useActiveLink(data.path)
@@ -32,6 +33,9 @@ export default function NavList({ data, depth, hasChild }) {
 
   const handleToggle = () => {
     setOpen(!open)
+    if (hasChild) {
+      onSubMenuSelect(data.children)
+    }
   }
 
   const handleClose = () => {
@@ -49,11 +53,12 @@ export default function NavList({ data, depth, hasChild }) {
         onClick={handleToggle}
       />
 
-      {hasChild && (
+      {/* Prevent displaying subitems in the vertical navigation */}
+      {/* {hasChild && (
         <Collapse in={open} unmountOnExit>
-          <NavSubList data={data.children} depth={depth} />
+          <NavSubList data={data.children} depth={depth} onSubMenuSelect={onSubMenuSelect} />
         </Collapse>
-      )}
+      )} */}
     </>
   )
 }
@@ -63,9 +68,10 @@ export default function NavList({ data, depth, hasChild }) {
 NavSubList.propTypes = {
   data: PropTypes.array,
   depth: PropTypes.number,
+  onSubMenuSelect: PropTypes.func,
 }
 
-function NavSubList({ data, depth }) {
+function NavSubList({ data, depth, onSubMenuSelect }) {
   return (
     <>
       {data.map((list) => (
@@ -74,6 +80,7 @@ function NavSubList({ data, depth }) {
           data={list}
           depth={depth + 1}
           hasChild={!!list.children}
+          onSubMenuSelect={onSubMenuSelect}
         />
       ))}
     </>

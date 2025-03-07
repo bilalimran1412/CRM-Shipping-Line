@@ -3,7 +3,7 @@ import {Link as RouterLink} from "react-router-dom";
 import Iconify from "../iconify";
 import {getCurrentUrlParamJSON} from "../../utils";
 
-export const actionCellRenderer = ({ROUTE_URL, permissions, checkPermission, translate, onDelete}) => row => {
+export const actionCellRenderer = ({ROUTE_URL, permissions, checkPermission, translate, onDelete, onDownload}) => row => {
   const params = getCurrentUrlParamJSON()
   return (
     <>
@@ -29,6 +29,14 @@ export const actionCellRenderer = ({ROUTE_URL, permissions, checkPermission, tra
         <Tooltip title={translate('delete')}>
           <IconButton color="error" size={'small'} onClick={() => onDelete(row.id)}>
             <Iconify icon="eva:trash-2-outline"/>
+          </IconButton>
+        </Tooltip>
+      }
+      
+      {checkPermission(permissions.download) &&
+        <Tooltip title={translate('download')}>
+          <IconButton color="success" size={'small'} onClick={() => onDownload(row.id)}>
+            <Iconify icon="eva:download-outline"/>
           </IconButton>
         </Tooltip>
       }

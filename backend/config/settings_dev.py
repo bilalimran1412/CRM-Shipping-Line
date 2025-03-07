@@ -3,14 +3,14 @@ DEBUG = True
 USE_HTTPS = False
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql',
-		'NAME': 'esthetic_db',
-		'USER': 'postgres',
-		'PASSWORD': '1234',
-		'HOST': 'localhost',
-		'PORT': 5432,
-	}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'aslshipping',  # Replace with your database name
+        'USER': 'postgres',  # Replace with your database user
+        'PASSWORD': 'success@@2022',  # Replace with your database password
+        'HOST': 'localhost',  # Set to your database host
+        'PORT': 5432,
+    }
 }
 
 APP_HOST = 'http://127.0.0.1:8000'
@@ -34,19 +34,19 @@ CELERY_RESULT_EXTENDED = True
 
 CELERY_TASK_DEFAULT_QUEUE = 'main'
 CELERY_TASK_QUEUES = {
-	'main': {
-		'exchange': 'main',
-		'routing_key': 'main',
-	},
-	'high_priority': {
-		'exchange': 'multithread',
-		'routing_key': 'multithread',
-	},
+    'main': {
+        'exchange': 'main',
+        'routing_key': 'main',
+    },
+    'high_priority': {
+        'exchange': 'multithread',
+        'routing_key': 'multithread',
+    },
 }
 
 CELERY_TASK_ROUTES = {
-	'ceir.tasks.send_message': {'queue': 'multithread'},
-	# 'app.tasks.default_task': {'queue': 'main'},
+    'ceir.tasks.send_message': {'queue': 'multithread'},
+    # 'app.tasks.default_task': {'queue': 'main'},
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

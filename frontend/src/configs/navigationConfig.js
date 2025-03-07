@@ -1,5 +1,6 @@
 import {navigation as userNav} from 'apps/user'
 import {navigation as logisticNav} from 'apps/logistic'
+import {navigation as shipmentNav} from 'apps/shipment'
 
 const navigationConfig = (checkPermission) => {
   // const navigation = []
@@ -16,8 +17,9 @@ const navigationConfig = (checkPermission) => {
       subheader: 'menu.management',
       items: [
         ...logisticNav(checkPermission),
+        ...shipmentNav(checkPermission),
         ...userNav(checkPermission),
-      ]
+]
     },
   ]
 }

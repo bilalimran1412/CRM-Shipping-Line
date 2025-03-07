@@ -75,6 +75,7 @@ export default function Header({ onOpenNav }) {
         boxShadow: 'none',
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
+        borderBottom: `dashed 1px ${theme.palette.divider}`,
         ...bgBlur({
           color: theme.palette.background.default,
         }),
@@ -86,7 +87,7 @@ export default function Header({ onOpenNav }) {
           height: HEADER.H_DASHBOARD_DESKTOP,
           ...(isOffset && {
             height: HEADER.H_DASHBOARD_DESKTOP_OFFSET,
-          }),
+      }),
           ...(isNavHorizontal && {
             width: 1,
             bgcolor: 'background.default',
@@ -95,7 +96,7 @@ export default function Header({ onOpenNav }) {
           }),
           ...(isNavMini && {
             width: `calc(100% - ${NAV.W_DASHBOARD_MINI + 1}px)`,
-          }),
+      }),
         }),
       }}
     >

@@ -23,9 +23,10 @@ import {useAuthContext} from "../../../auth/useAuthContext"
 NavVertical.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
+  onSubMenuSelect: PropTypes.func,
 }
 
-export default function NavVertical({ openNav, onCloseNav }) {
+export default function NavVertical({ openNav, onCloseNav, onSubMenuSelect }) {
   const { pathname } = useLocation()
   const {checkPermission} = useAuthContext()
   const isDesktop = useResponsive('up', 'lg')
@@ -36,6 +37,10 @@ export default function NavVertical({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
+
+  const handleSubMenuSelect = (subMenu) => {
+    onSubMenuSelect(subMenu)
+  }
 
   const renderContent = (
     <Scrollbar
@@ -62,7 +67,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
         <NavAccount />
       </Stack>
 
-      <NavSectionVertical data={navConfig(checkPermission)} />
+      <NavSectionVertical data={navConfig(checkPermission)} onSubMenuSelect={handleSubMenuSelect} />
 
       <Box sx={{ flexGrow: 1 }} />
 

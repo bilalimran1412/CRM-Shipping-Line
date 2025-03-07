@@ -12,6 +12,7 @@ import Header from './header'
 import NavMini from './nav/NavMini'
 import NavVertical from './nav/NavVertical'
 import NavHorizontal from './nav/NavHorizontal'
+import SubMenu from './SubMenu'
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,7 @@ export default function DashboardLayout() {
   const isDesktop = useResponsive('up', 'lg')
 
   const [open, setOpen] = useState(false)
+  const [selectedSubMenu, setSelectedSubMenu] = useState([])
 
   const isNavHorizontal = themeLayout === 'horizontal'
 
@@ -34,7 +36,11 @@ export default function DashboardLayout() {
     setOpen(false)
   }
 
-  const renderNavVertical = <NavVertical openNav={open} onCloseNav={handleClose} />
+  const handleSubMenuSelect = (subMenu) => {
+    setSelectedSubMenu(subMenu)
+  }
+
+  const renderNavVertical = <NavVertical openNav={open} onCloseNav={handleClose} onSubMenuSelect={handleSubMenuSelect} />
 
   if (isNavHorizontal) {
     return (
@@ -43,7 +49,9 @@ export default function DashboardLayout() {
 
         {isDesktop ? <NavHorizontal /> : renderNavVertical}
 
+
         <Main>
+          <SubMenu items={selectedSubMenu} />
           <Outlet />
         </Main>
       </>
@@ -64,6 +72,7 @@ export default function DashboardLayout() {
           {isDesktop ? <NavMini /> : renderNavVertical}
 
           <Main>
+            <SubMenu items={selectedSubMenu} />
             <Outlet />
           </Main>
         </Box>
@@ -84,6 +93,7 @@ export default function DashboardLayout() {
         {renderNavVertical}
 
         <Main>
+          <SubMenu items={selectedSubMenu} />
           <Outlet />
         </Main>
       </Box>

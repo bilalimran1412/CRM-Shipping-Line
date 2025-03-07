@@ -12,9 +12,10 @@ import NavList from './NavList'
 NavSectionVertical.propTypes = {
   sx: PropTypes.object,
   data: PropTypes.array,
+  onSubMenuSelect: PropTypes.func,
 }
 
-export default function NavSectionVertical({ data, sx, ...other }) {
+export default function NavSectionVertical({ data, sx, onSubMenuSelect, ...other }) {
   const { translate } = useLocales()
 
   return (
@@ -34,6 +35,7 @@ export default function NavSectionVertical({ data, sx, ...other }) {
                 data={list}
                 depth={1}
                 hasChild={!!list.children}
+                onSubMenuSelect={onSubMenuSelect}
               />
             ))}
           </List>
