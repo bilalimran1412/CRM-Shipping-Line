@@ -7,7 +7,6 @@ class CustomerInvoiceQuerySet(BaseQuerySet):
     def list(self):
         select = [
             'customer',
-            'customer__icon',
         ]
         prefetch = [
             'customerinvoiceitem_set',
@@ -18,7 +17,6 @@ class CustomerInvoiceQuerySet(BaseQuerySet):
     def detail(self):
         select = [
             'customer',
-            'customer__icon',
         ]
         prefetch = [
             'customerinvoiceitem_set',

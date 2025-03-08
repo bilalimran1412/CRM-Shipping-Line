@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Count, Q, Sum
 from ..models import Vehicle, DeliveryStatus, DeliveryDestination
-from main.models import AppConfig
+from main.models import AppConfig, Currency
 from finance.models import CustomerInvoice
 from core.utils.rest import ModelPermission
 
@@ -11,14 +11,21 @@ from core.utils.rest import ModelPermission
 class ViewSet(viewsets.ViewSet):
 
     def list(self, request):
-        # Get primary currency from AppConfig
-        app_config = AppConfig.objects.first()
+        # Get primary currency (first currency in the system)
+        primary_currency_obj = Currency.objects.first()
         primary_currency = {
-            "id": app_config.primary_currency.id if app_config and app_config.primary_currency else None,
-            "name": app_config.primary_currency.name if app_config and app_config.primary_currency else None,
-            "code": app_config.primary_currency.code if app_config and app_config.primary_currency else None,
-            "icon": None  # Add icon logic if needed
-        } if app_config and app_config.primary_currency else None
+            "id": primary_currency_obj.id if primary_currency_obj else None,
+            "name": primary_currency_obj.name if primary_currency_obj else None,
+            "code": primary_currency_obj.code if primary_currency_obj else None,
+            "icon": {
+                "id": primary_currency_obj.icon.id,
+                "file": primary_currency_obj.icon.file.url if primary_currency_obj.icon and primary_currency_obj.icon.file else None,
+                "name": primary_currency_obj.icon.file.name if primary_currency_obj.icon and primary_currency_obj.icon.file else None,
+                "type": primary_currency_obj.icon.type if primary_currency_obj.icon else None,
+                "thumb": primary_currency_obj.icon.thumb.url if primary_currency_obj.icon and primary_currency_obj.icon.thumb else None,
+                "file_size": primary_currency_obj.icon.file.size if primary_currency_obj.icon and primary_currency_obj.icon.file else None
+            } if primary_currency_obj and primary_currency_obj.icon else None
+        } if primary_currency_obj else None
 
         # Get statuses with vehicle count
         statuses = DeliveryStatus.objects.annotate(
@@ -105,12 +112,20 @@ class ViewSet(viewsets.ViewSet):
             "not_delivered": dest.not_delivered
         } for dest in destinations]
 
+        # Calculate additional totals
+        total_vehicles = Vehicle.objects.count()
+        total_shipments = Vehicle.objects.exclude(status__isnull=True).count()
+        total_customers = User.objects.filter(vehicle__isnull=False).distinct().count()
+
         # Compile response
         response_data = {
             "message": "Welcome to the dashboard!",
             "user": request.user.username,
             "is_customer": not request.user.is_staff,
             "primary_currency": primary_currency,
+            "total_vehicles": total_vehicles,
+            "total_shipments": total_shipments,
+            "total_customers": total_customers,
             "statuses_with_vehicle_count": {
                 "statuses": statuses_data,
                 "empty_status": 0
@@ -133,3 +148,4 @@ class ViewSet(viewsets.ViewSet):
         }
 
         return Response(response_data)
+

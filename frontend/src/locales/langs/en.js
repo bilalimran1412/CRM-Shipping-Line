@@ -84,7 +84,9 @@ const en = {
 
   //   Navigation menu title
   navigation: {
-    logistic: 'Logistics'
+    logistic: 'Logistics',
+    shipment: 'Shipments',
+    finance: 'Finance',
   },
   configurator: {
     title: 'Theme settings',

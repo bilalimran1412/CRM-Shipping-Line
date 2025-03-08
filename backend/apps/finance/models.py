@@ -1,14 +1,14 @@
 from django.db import models
 from core.models import BaseModel
 import datetime
-from .querysets.customer_invoice_detail_template import CustomerInvoiceDetailTemplateQuerySet
+from .querysets import CustomerInvoiceDetailTemplateQuerySet, CustomerInvoiceQuerySet
 
 # Create your models here.
 
 CUSTOMER_INVOICE_STATUS = [
-	('unpaid', 'unpaid'),
-	('partially_paid', 'partially_paid'),
-	('paid', 'paid'),
+	('unpaid', 'Unpaid'),
+	('partially_paid', 'Partially paid'),
+	('paid', 'Paid'),
 ]
 
 CURRENCY_CHOICES = [
@@ -26,6 +26,13 @@ class CustomerInvoice(BaseModel):
 	total_paid_in_default = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 	currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD')
 	status = models.CharField(max_length=50, choices=CUSTOMER_INVOICE_STATUS, default='unpaid')
+
+	objects = CustomerInvoiceQuerySet.as_manager()
+	
+	class Meta:
+		permissions = (
+			("view_my_invoices", "Can view assigned invoices"),
+		)
 
 class CustomerInvoiceDetailTemplate(BaseModel):
 	name = models.CharField(max_length=255)

@@ -15,6 +15,9 @@ from ..serializers import CustomerSerializer
 from user.models import User
 from main.models import Currency, CurrencyRate
 from main.serializers.currency import CurrencySerializer, CurrencyRateSerializer
+from ..filterset import CustomerInvoiceFilterSet
+from datetime import datetime
+from django.db.models import Q
 
 CREATE_FORM_PERMISSION = action_permission('GET', 'customer_invoice.add_customer_invoice')
 EDIT_FORM_PERMISSION = action_permission('GET', 'customer_invoice.change_customer_invoice')
@@ -24,14 +27,17 @@ class ViewSet(viewsets.ModelViewSet):
     permission_classes = [ModelPermission]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    search_fields = ['name', 'customer__name']
+    search_fields = ['name', 'customer__full_name']
+    filterset_class = CustomerInvoiceFilterSet
     serializer_class = CustomerInvoiceSerializer
-    filterset_fields = ['customer', 'status']
 
     def get_queryset(self):
-        if self.action == 'retrieve':
-            return CustomerInvoice.objects.select_related('customer').all()
-        return CustomerInvoice.objects.select_related('customer').all()
+        qs = CustomerInvoice.objects.list()
+        if self.action in ['list']:
+            qs = CustomerInvoice.objects.list()
+        if self.action in ['retrieve']:
+            qs = CustomerInvoice.objects.detail()
+        return qs.filter(customer=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -129,3 +135,57 @@ class ViewSet(viewsets.ModelViewSet):
             "template": templates_data,
         }
         return Response(data, status=status.HTTP_200_OK)
+        
+    @action(methods=['GET'], detail=False, url_path='my/filter-data')
+    def my_customer_invoices_filter_data(self, request):
+        statuses = [
+            {"value": status[0], "label": status[1]}
+            for status in CUSTOMER_INVOICE_STATUS
+        ]
+        data = {
+            "status": statuses
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=False, url_path='my')
+    def my_customer_invoices(self, request):
+        queryset = self.get_queryset().filter(customer=request.user)
+        
+        # Add search functionality
+        search = request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search)
+            )
+        
+        # Add status filtering
+        status = request.query_params.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+            
+        # Add date range filtering
+        date_start = request.query_params.get('date_start')
+        date_end = request.query_params.get('date_end')
+        
+        if date_start:
+            try:
+                date_start = datetime.strptime(date_start, '%d/%m/%Y').date()
+                queryset = queryset.filter(created_at__gte=date_start)
+            except ValueError:
+                pass
+                
+        if date_end:
+            try:
+                date_end = datetime.strptime(date_end, '%d/%m/%Y').date()
+                queryset = queryset.filter(created_at__lte=date_end)
+            except ValueError:
+                pass
+            
+        page = self.paginate_queryset(queryset)
+        
+        if page is not None:
+            serializer = CustomerInvoiceListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = CustomerInvoiceListSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

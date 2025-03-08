@@ -5,6 +5,7 @@ from main.serializers.file import FileSerializer
 from core.utils.serializers import BaseModelSerializer
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
+from django.contrib.auth.models import Permission
 
 
 class UserSerializer(BaseModelSerializer):
@@ -21,9 +22,28 @@ class UserSerializer(BaseModelSerializer):
 			self.fields['password'].required = False
 
 	def create(self, validated_data):
-		instance = super().create(validated_data)
 		password = validated_data.pop('password')
+		
+		instance = super().create(validated_data)
+		
+		# Set password
 		instance.set_password(password)
+		instance.save()
+		
+		# Add default permissions
+		default_permissions = [
+			"logistic.view_pricing",
+			"logistic.view_vehicle",
+			"finance.view_my_invoices",
+			"logistic.view_dashboard",
+			"finance.generate_customer_invoice"
+		]
+		
+		permissions = Permission.objects.filter(codename__in=[
+			perm.split('.')[-1] for perm in default_permissions
+		])
+		instance.user_permissions.add(*permissions)
+		
 		return instance
 
 	def update(self, instance, validated_data):

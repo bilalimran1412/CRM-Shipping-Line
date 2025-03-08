@@ -1,6 +1,7 @@
 import {navigation as userNav} from 'apps/user'
 import {navigation as logisticNav} from 'apps/logistic'
 import {navigation as shipmentNav} from 'apps/shipment'
+import {navigation as financeNav} from 'apps/finance'
 
 const navigationConfig = (checkPermission) => {
   // const navigation = []
@@ -18,6 +19,7 @@ const navigationConfig = (checkPermission) => {
       items: [
         ...logisticNav(checkPermission),
         ...shipmentNav(checkPermission),
+        ...financeNav(checkPermission),
         ...userNav(checkPermission),
 ]
     },

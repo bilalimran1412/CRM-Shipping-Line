@@ -22,9 +22,18 @@ class CustomerInvoiceDetailTemplateSerializer(BaseModelSerializer):
     def create(self, validated_data):
         try:
             with transaction.atomic():
+                items_data = validated_data.pop('customerinvoicedetailtemplateitem_set', [])
                 template = CustomerInvoiceDetailTemplate.objects.create(
                     name=validated_data.get('name')
                 )
+                
+                # Create template items
+                for item_data in items_data:
+                    CustomerInvoiceDetailTemplateItem.objects.create(
+                        template=template,
+                        **item_data
+                    )
+                    
                 return template
         except Exception as e:
             raise serializers.ValidationError(f"An error occurred: {e}")
@@ -32,9 +41,21 @@ class CustomerInvoiceDetailTemplateSerializer(BaseModelSerializer):
     def update(self, instance, validated_data):
         try:
             with transaction.atomic():
+                items_data = validated_data.pop('customerinvoicedetailtemplateitem_set', [])
+                
+                # Update template fields
                 for attr, value in validated_data.items():
                     setattr(instance, attr, value)
                 instance.save()
+                
+                # Clear existing items and create new ones
+                instance.customerinvoicedetailtemplateitem_set.all().delete()
+                for item_data in items_data:
+                    CustomerInvoiceDetailTemplateItem.objects.create(
+                        template=instance,
+                        **item_data
+                    )
+                
                 return instance
         except Exception as e:
             raise serializers.ValidationError(f"An error occurred: {e}")
