@@ -19,7 +19,7 @@ CURRENCY_CHOICES = [
 class CustomerInvoice(BaseModel):
 	name = models.CharField(max_length=255)
 	template = models.CharField(max_length=255, null=True, blank=True)
-	customer = models.ForeignKey('user.User', on_delete=models.PROTECT)
+	customer = models.ForeignKey('user.User', on_delete=models.SET_NULL, null=True, blank=True)
 	datetime = models.DateTimeField(default=datetime.datetime.now)
 	data = models.JSONField(null=True, blank=True)
 	total_amount_in_default = models.DecimalField(max_digits=10, decimal_places=2, default=0)

@@ -39,7 +39,7 @@ class Vehicle(BaseModel):
 	model = models.CharField(max_length=50)
 	vin = models.CharField(max_length=50)
 	characteristics = models.JSONField(default=dict)
-	customer = models.ForeignKey('user.User', on_delete=models.PROTECT, null=True, blank=True)
+	customer = models.ForeignKey('user.User', on_delete=models.SET_NULL, null=True, blank=True)
 
 	destination = models.ForeignKey('DeliveryDestination', null=True, blank=True, on_delete=models.PROTECT)
 	status = models.ForeignKey('DeliveryHistory', null=True, blank=True, on_delete=models.SET_NULL,
