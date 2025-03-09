@@ -5,7 +5,6 @@ from main.serializers.file import FileSerializer
 from core.utils.serializers import BaseModelSerializer
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
-from django.contrib.auth.models import Permission
 
 
 class UserSerializer(BaseModelSerializer):
@@ -23,35 +22,34 @@ class UserSerializer(BaseModelSerializer):
 
 	def create(self, validated_data):
 		password = validated_data.pop('password')
+		groups = validated_data.pop('groups', [])
 		
 		instance = super().create(validated_data)
 		
 		# Set password
 		instance.set_password(password)
+		# Add groups
+		if groups:
+			instance.groups.set(groups)
+		
 		instance.save()
-		
-		# Add default permissions
-		default_permissions = [
-			"logistic.view_pricing",
-			"logistic.view_vehicle",
-			"finance.view_my_invoices",
-			"logistic.view_dashboard",
-			"finance.generate_customer_invoice"
-		]
-		
-		permissions = Permission.objects.filter(codename__in=[
-			perm.split('.')[-1] for perm in default_permissions
-		])
-		instance.user_permissions.add(*permissions)
-		
 		return instance
 
 	def update(self, instance, validated_data):
+		print(validated_data)
+		password = validated_data.pop('password', None)
+		groups = validated_data.pop('groups', None)
+		
 		instance = super().update(instance, validated_data)
-		if 'password' in validated_data and validated_data['password']:
-			password = validated_data.pop('password')
+		
+		if password:
 			instance.set_password(password)
-			instance.save()
+		
+		if groups is not None:
+			instance.user_permissions.clear()
+			instance.groups.set(groups)
+		
+		instance.save()
 		return instance
 
 	def to_representation(self, instance):
