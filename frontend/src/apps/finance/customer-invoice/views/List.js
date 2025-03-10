@@ -40,6 +40,8 @@ import {getCols} from "../utils";
 import {LIST_NAVIGATION as TEMPLATE_LIST_NAVIGATION} from '../../customer-invoice-detail-template/config'
 import RHFDateField from "../../../../components/hook-form/RHFDateField";
 import {fDate} from "../../../../utils/formatTime";
+import {useState} from "react";
+import axios from "../../../../utils/axios";
 export default function PageOne() {
   const {themeStretch} = useSettingsContext()
   const {checkPermission} = useAuthContext()
@@ -62,6 +64,7 @@ export default function PageOne() {
   const [searchParams, setSearchParams] = useSearchParams()
   const confirmRef = useRef()
   const {enqueueSnackbar} = useSnackbar()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchList()
@@ -181,6 +184,21 @@ export default function PageOne() {
       <Divider/>
     </>
   )
+  const onDownload = async (id) => {
+    setLoading(true)
+    try {
+      const response = await axios.get(`finance/customer-invoice/${id}/generate/`)
+      window.open(response.data.file, '_blank')
+    } catch (e) {
+      enqueueSnackbar(translate('customer-invoice.error.download'), {
+        variant: 'error',
+        autoHideDuration: 5 * 1000
+      })
+    }
+    finally {
+      setLoading(false)
+    }
+  }
   const onDelete = id => {
     confirmRef.current.open({
       title: translate('customer-invoice.delete.title'),
@@ -222,7 +240,7 @@ export default function PageOne() {
     )
   }
 
-  const tableCols = getCols({translate, currentLang, onDelete, checkPermission, context})
+  const tableCols = getCols({translate, currentLang, onDelete, onDownload, checkPermission, context})
   return (
     <>
       <Helmet>

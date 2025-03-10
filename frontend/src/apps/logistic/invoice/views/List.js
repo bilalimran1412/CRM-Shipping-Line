@@ -31,6 +31,8 @@ import ConfirmDialog from "components/confirm-dialog";
 import {useSnackbar} from "components/snackbar";
 import {useAuthContext} from "auth/useAuthContext";
 import {getCols, renderCollapse, vehicleCols} from "../utils";
+import {useState} from "react";
+import axios from "../../../../utils/axios";
 // ----------------------------------------------------------------------
 
 export default function PageOne() {
@@ -54,6 +56,7 @@ export default function PageOne() {
   const [searchParams, setSearchParams] = useSearchParams()
   const confirmRef = useRef()
   const {enqueueSnackbar} = useSnackbar()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchList()
@@ -100,6 +103,21 @@ export default function PageOne() {
       <Divider/>
     </>
   )
+  const onDownload = async (id) => {
+    setLoading(true)
+    try {
+      const response = await axios.get(`logistic/invoice/${id}/generate/`)
+      window.open(response.data.file, '_blank')
+    } catch (e) {
+      enqueueSnackbar(translate('invoice.error.download'), {
+        variant: 'error',
+        autoHideDuration: 5 * 1000
+      })
+    }
+    finally {
+      setLoading(false)
+    }
+  }
   const onDelete = id => {
     confirmRef.current.open({
       title: translate('invoice.delete.title'),
@@ -141,7 +159,7 @@ export default function PageOne() {
     )
   }
 
-  const tableCols = getCols({translate, currentLang, onDelete, checkPermission})
+  const tableCols = getCols({translate, currentLang, onDelete, onDownload, checkPermission})
   const collapseCols = vehicleCols({translate, onDelete, currentLang, checkPermission, disableActions: true})
   return (
     <>

@@ -23,7 +23,7 @@ import moment from "moment/moment";
 import DownloadAction from "../components/DownloadAction";
 import {fNumber, numberSeparatorValue} from "../../../../utils/formatNumber";
 
-export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, currentLang, context}) => {
+export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPermission, currentLang, context}) => {
   const findTemplate = code => {
     return context?.templates?.find(item => item.value === code)?.name[currentLang.value]
   }
@@ -134,7 +134,7 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
       id: 'actions',
       label: translate('actions'),
       align: 'right',
-      render: actionCellRenderer({ROUTE_URL, translate, onDelete, permissions: {...permissions, view: ''}, checkPermission, customActions})
+      render: actionCellRenderer({ROUTE_URL, translate, onDelete, onDownload, permissions: {...permissions, view: ''}, checkPermission, customActions})
     },
   ]
 }

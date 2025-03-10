@@ -31,6 +31,15 @@ class CustomerInvoiceDetailTemplateSerializer(BaseModelSerializer):
 
 class CustomerInvoiceItemSerializer(BaseModelSerializer):
     invoice = serializers.PrimaryKeyRelatedField(read_only=True)
+    currency = serializers.CharField(required=True)
+
+    def validate_currency(self, value):
+        # Convert currency ID to code if needed
+        currency_map = {
+            '1': 'USD',
+            '2': 'AED'
+        }
+        return currency_map.get(str(value), value)
 
     class Meta:
         model = CustomerInvoiceItem
@@ -41,6 +50,15 @@ class CustomerInvoiceItemSerializer(BaseModelSerializer):
 
 class CustomerInvoicePaymentSerializer(BaseModelSerializer):
     invoice = serializers.PrimaryKeyRelatedField(read_only=True)
+    currency = serializers.CharField(required=True)
+
+    def validate_currency(self, value):
+        # Convert currency ID to code if needed
+        currency_map = {
+            '1': 'USD',
+            '2': 'AED'
+        }
+        return currency_map.get(str(value), value)
 
     class Meta:
         model = CustomerInvoicePayment

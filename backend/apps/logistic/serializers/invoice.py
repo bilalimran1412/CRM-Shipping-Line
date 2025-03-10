@@ -9,6 +9,7 @@ from ..serializers import (
 	CustomerSerializer,
 	DeliveryDestinationSerializer,
 )
+import json
 
 class CharacteristicsSerializer(serializers.Serializer):
 	year = serializers.CharField(max_length=100, allow_null=True)
@@ -50,7 +51,26 @@ class InvoiceVehicleSerializer(BaseModelSerializer):
 class InvoiceSerializer(BaseModelSerializer):
 	vehicles = InvoiceVehicleSerializer(many=True, required=False)
 
+	def to_representation(self, instance):
+		representation = super().to_representation(instance)
+		# Convert the data string field to JSON if it exists and is valid JSON
+		if instance.data:
+			print('instance.data', instance.data)
+			try:
+				representation['data'] = json.loads(instance.data)
+			except json.JSONDecodeError:
+				representation['data'] = None
+		return representation
+
+	def to_internal_value(self, data):
+		# Convert JSON data to string when saving
+		if 'data' in data and data['data']:
+			data = data.copy()
+			data['data'] = json.dumps(data['data'])
+		return super().to_internal_value(data)
+
 	def update(self, instance, validated_data):
+		print('validated_data', validated_data)
 		vehicles = validated_data.pop('vehicles', [])
 		try:
 			with transaction.atomic():
@@ -79,7 +99,7 @@ class InvoiceSerializer(BaseModelSerializer):
 	class Meta:
 		model = Invoice
 		fields = (
-			'id', 'name', 'datetime', 'template', 'vehicles'
+			'id', 'name', 'datetime', 'template', 'vehicles', 'data'
 		)
 
 class InvoiceListSerializer(BaseModelSerializer):

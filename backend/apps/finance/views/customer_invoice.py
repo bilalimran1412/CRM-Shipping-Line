@@ -18,6 +18,14 @@ from main.serializers.currency import CurrencySerializer, CurrencyRateSerializer
 from ..filterset import CustomerInvoiceFilterSet
 from datetime import datetime
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
+import json
+from weasyprint import HTML
+from django.conf import settings
+import tempfile
+from main.models import File, OneTimeLink
+from django.template.loader import render_to_string
+from django.core.files import File as DjangoFile
 
 CREATE_FORM_PERMISSION = action_permission('GET', 'customer_invoice.add_customer_invoice')
 EDIT_FORM_PERMISSION = action_permission('GET', 'customer_invoice.change_customer_invoice')
@@ -189,3 +197,72 @@ class ViewSet(viewsets.ModelViewSet):
         
         serializer = CustomerInvoiceListSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    	
+    @action(methods=['GET'], detail=True, url_path='generate')
+    def generate_customer_invoice(self, request, pk):
+        # Get the customer invoice instance
+        customer_invoice = get_object_or_404(CustomerInvoice.objects.list(), pk=pk)
+        
+        # Get the data field (it's already a dict)
+        customer_invoice_data = customer_invoice.data or {}
+        
+        # Replace template variables in header
+        header = customer_invoice_data.get('header', '')
+        header = header.replace('[invoice_id]', str(customer_invoice.id))
+        header = header.replace('[date]', customer_invoice.datetime.strftime('%Y-%m-%d'))
+        header = header.replace('[customer]', customer_invoice.customer.full_name if customer_invoice.customer else '')
+        
+        # Convert newlines to HTML line breaks
+        header = header.replace("\\n", '<br>')
+        
+        # Replace template variables in footer
+        footer = customer_invoice_data.get('footer', '')
+        footer = footer.replace("\\n", '<br>')
+        
+        customer_invoice_data['header'] = header
+        customer_invoice_data['footer'] = footer
+        
+        # Get all customer invoice items
+        customer_invoice_items = customer_invoice.customerinvoiceitem_set.all()
+        
+        # Get all payments
+        customer_invoice_payments = customer_invoice.customerinvoicepayment_set.all()
+        
+        # Prepare context for template
+        context = {
+            'customer_invoice': customer_invoice,
+            'customer_invoice_items': customer_invoice_items,
+            'customer_invoice_payments': customer_invoice_payments,
+            'header': customer_invoice_data.get('header', ''),
+            'footer': customer_invoice_data.get('footer', ''),
+            'customer_invoice_data': customer_invoice_data,
+            'total_amount': customer_invoice.total_amount_in_default,
+        }
+        
+        # Render the template to HTML
+        html_string = render_to_string('customer_invoice.html', context)
+        
+        # Create PDF from HTML
+        html = HTML(string=html_string)
+        
+        # Create a temporary file to save the PDF
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+            html.write_pdf(tmp_file.name)
+            
+            # Create a File instance with the PDF
+            file_obj = File.objects.create(
+                file=DjangoFile(open(tmp_file.name, 'rb'), name=f'customer_invoice_{pk}.pdf'),
+                type='application/pdf'
+            )
+            
+            # Create a one-time link for the file
+            one_time_link = OneTimeLink.objects.create(
+                file=file_obj,
+                is_active=True
+            )
+        
+        # Return the one-time link URL
+        return Response({
+            'file': f"{settings.BACKEND_URL}/api/v1/main/file/download/{one_time_link.token}/"
+        }, status=status.HTTP_200_OK)
+		

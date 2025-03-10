@@ -11,18 +11,24 @@ import {
   Typography,
   TableRow as MUITableRow
 } from "@mui/material";
-import {CustomAvatar} from "components/custom-avatar";
 import {actionCellRenderer} from "components/datatable/utils";
 import {permissions, ROUTE_URL} from "../config";
 import {Link as RouterLink} from 'react-router-dom'
-import Image from "../../../../components/image";
-import moment from "moment/moment";
 import Iconify from "../../../../components/iconify";
 import Scrollbar from "../../../../components/scrollbar/Scrollbar";
 import {TableHeadCustom} from "../../../../components/table";
 import TableRow from "../../../../components/datatable/TableRow";
+import Image from "../../../../components/image";
+import moment from "moment/moment";
+import DownloadAction from "../components/DownloadAction";
 
 export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPermission, currentLang}) => {
+  const download = async () => {
+
+  }
+  const customActions = (row) => (
+    <DownloadAction row={row}/>
+  )
   return [
     // {
     //   id: 'checkbox',
@@ -42,58 +48,43 @@ export const getCols = ({translate, onClickAvatar, onDelete, onDownload, checkPe
       id: 'name',
       label: translate('invoice.table.name'),
       align: 'left',
-      width: '100px',
-      render: row => {
-        // row.first_name
-        return (
-          <Typography variant="subtitle1">
-            {row.name}
-          </Typography>
-        )
-      },
+      width: '50px',
+      render: row => row.name,
       sort: true,
-      pin: 'left',
     },
     {
-      id: 'vehicle_count',
-      label: 'vehicle count',
+      id: 'count',
+      label: translate('invoice.table.count'),
       align: 'left',
-      width: '300px',
-      render: row => {
-        // row.first_name
-        return (
-          <Typography variant="subtitle1">
-            {row.count} pcs.
-          </Typography>
-        )
-      },
-      sort: true,
-      pin: 'left',
-    },  
+      render: row => `${row.count} ${translate('invoice.pcs')}`,
+    },
     {
       id: 'datetime',
-      label: `date and time`,
+      label: translate('invoice.table.datetime'),
       align: 'left',
-            width: '250px',
-            render: row => {
-              // row.first_name
-              return (
-                <Typography variant="subtitle1">
-                  {moment(new Date(row.datetime)).format('YYYY-MM-DD HH:mm')}
-                </Typography>
-              )
-            },
+      width: '250px',
+      render: row => {
+        // row.first_name
+        return (
+          <Typography variant="subtitle1">
+            {moment(new Date(row.datetime)).format('DD/MM/YYYY HH:mm')}
+          </Typography>
+        )
+      },
       sort: true,
       pin: 'left',
     },
+
+
     {
       id: 'actions',
-      label: 'actions',
+      label: translate('actions'),
       align: 'right',
-      render: actionCellRenderer({ROUTE_URL, translate, onDelete, onDownload, permissions, checkPermission})
+      render: actionCellRenderer({ROUTE_URL, translate, onDelete, onDownload, permissions: {...permissions, view: ''}, checkPermission, customActions})
     },
   ]
 }
+
 
 export const vehicleSearchCols = ({translate, currentLang, onAppend, checkPermission}) => {
   return [
@@ -171,7 +162,7 @@ export const vehicleSearchCols = ({translate, currentLang, onAppend, checkPermis
 
     {
       id: 'actions',
-      label: 'Действия',
+      label: translate('actions'),
       align: 'right',
       render: row => {
         return (
@@ -264,7 +255,7 @@ export const vehicleCols = ({translate, currentLang, onDelete, checkPermission, 
   if (!disableActions) {
     cols.push({
       id: 'actions',
-      label: 'actions',
+      label: translate('actions'),
       align: 'right',
       render: row => {
         return (

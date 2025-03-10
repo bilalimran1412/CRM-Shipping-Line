@@ -9,7 +9,7 @@ export const CREATE_PERMISSION = 'logistic.add_invoice'
 export const UPDATE_PERMISSION = 'logistic.change_invoice'
 export const DELETE_PERMISSION = 'logistic.delete_invoice'
 export const VIEW_PERMISSION = 'logistic.view_invoice'
-export const DOWNLOAD_PERMISSION = 'logistic.download_invoice'
+export const DOWNLOAD_PERMISSION = 'logistic.generate_invoice'
 
 export const LIST_NAVIGATION = `/${ROUTE_URL}`
 export const permissions = {
@@ -17,5 +17,5 @@ export const permissions = {
   edit: UPDATE_PERMISSION,
   delete: DELETE_PERMISSION,
   view: VIEW_PERMISSION,
-download: DOWNLOAD_PERMISSION,
+  download: DOWNLOAD_PERMISSION,
 }

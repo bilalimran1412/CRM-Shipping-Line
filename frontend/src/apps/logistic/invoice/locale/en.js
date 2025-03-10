@@ -7,23 +7,41 @@
 
 const en = {
   title: {
-    page: 'Invoice',
-    navigation: 'Invoice',
-    list: 'Invoice',
+    page: 'Invoices',
+    navigation: 'Invoices',
+    list: 'Invoices',
     edit: 'Edit invoice',
     create: 'New invoice',
     view: 'View invoice',
   },
   create: 'Add',
+  pcs: 'pcs.',
   form: {
-    main_data: 'Main Data',
+    main_data: 'Main data',
+    header_footer_data: 'Invoice header and footer',
+    search: {
+      title: 'Search vehicle',
+      result: 'Search results',
+      vin: 'VIN number (separated by spaces)',
+      submit: 'Submit',
+    },
     name: 'Name',
+    template: 'Template',
+    vehicle_list: 'Vehicle list',
+    datetime: 'Date and time',
+    header: 'Header',
+    footer: 'Footer',
+    consignee: 'Consignee',
+    hs_code: 'HS code',
+    weight: 'Weight',
+    amount: 'Amount',
+    destination: 'Destination',
 
     edit_button: 'Save',
     create_button: 'Create',
   },
   breadcrumb: {
-    main: 'Invoice',
+    main: 'Invoices',
     list: 'List',
     edit: 'Edit',
     create: 'Create',
@@ -31,19 +49,23 @@ const en = {
   },
   validator: {
     name_required: 'Name is required',
+    template_required: 'Template is required',
+    datetime_required: 'Date and time are required',
   },
   filter: {
     search: 'Search...',
   },
   table: {
     name: 'Name',
-    icon: 'Icon',
+    count: 'Vehicle count',
+    datetime: 'Date and time',
   },
   error: {
     create: 'Error occurred while creating data',
     edit: 'Error occurred while saving data',
     delete: 'Error occurred while deleting data',
     import: 'Error occurred while importing data',
+    download: 'Error occurred while downloading the invoice',
   },
   success: {
     create: 'Data successfully created',
@@ -52,7 +74,7 @@ const en = {
     import: 'Data successfully imported',
   },
   delete: {
-    title: 'Delete Confirmation',
+    title: 'Delete confirmation',
     description: 'Are you sure you want to delete this data? \nThis action is irreversible.',
   },
   view: {}

@@ -9,6 +9,7 @@ export const CREATE_PERMISSION = 'finance.add_customerinvoice'
 export const UPDATE_PERMISSION = 'finance.change_customerinvoice'
 export const DELETE_PERMISSION = 'finance.delete_customerinvoice'
 export const VIEW_PERMISSION = 'finance.view_customerinvoice'
+export const DOWNLOAD_PERMISSION = 'finance.generate_customerinvoice'
 
 export const LIST_NAVIGATION = `/${ROUTE_URL}`
 export const permissions = {
@@ -16,4 +17,5 @@ export const permissions = {
   edit: UPDATE_PERMISSION,
   delete: DELETE_PERMISSION,
   view: VIEW_PERMISSION,
+  download: DOWNLOAD_PERMISSION,
 }

@@ -7,7 +7,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'aslshipping',  # Replace with your database name
         'USER': 'postgres',  # Replace with your database user
-        'PASSWORD': 'success@@2022',  # Replace with your database password
+        'PASSWORD': 'root',  # Replace with your database password
         'HOST': 'localhost',  # Set to your database host
         'PORT': 5432,
     }

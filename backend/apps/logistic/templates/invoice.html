@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        .invoice-container {
+            width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #003366;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid red;
+            padding-bottom: 10px;
+        }
+        .header img {
+            width: 200px;
+        }
+        .invoice-details {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table th, .table td {
+            border: 1px solid #003366;
+            padding: 8px;
+            text-align: center;
+        }
+        .table th {
+            background-color: #003366;
+            color: #ffffff;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .footer img {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="header">
+            <img src="/assets/images/invoicepdf/melegush.png" alt="Company Logo">
+            <h2>Invoice No: <span style="color: #003366;">{{ invoice.id }}</span></h2>
+        </div>
+        <p><strong>Date:</strong> {{ invoice.datetime|date:"F d, Y" }}</p>
+        <p><strong>Consignee:</strong> {{ invoice_data.consignee }}</p>
+        <p><strong>Destination:</strong> {{ invoice_data.destination }}</p>
+        <header>
+            <p>{{ header|safe }}</p>
+        </header>
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Consignee</th>
+                <th>HS code</th>
+                <th>Weight</th>
+                <th>Total</th>
+            </tr>
+            {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ vehicle.manufacturer }} {{vehicle.characteristics.year}} {{vehicle.characteristics.color}} <br /> {{vehicle.model}}</td>
+                <td>{{ vehicle.customer.get_full_name }}</td>
+                <td>{{ vehicle.vin }}</td>
+                <td>{{ vehicle.weight|default:"0.00" }}</td>
+                <td>{{ vehicle.total|default:"0.00" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="footer">
+            <p>{{ footer|safe }}</p>
+            <p><strong>Transport details:</strong> {{ invoice.transport_details }}</p>
+            <p><strong>Company:</strong> {{ invoice.company_name }}</p>
+            <img src="{{ signature_url }}" alt="Signature">
+            <img src="{{ stamp_url }}" alt="Company Stamp">
+        </div>
+    </div>
+</body>
+</html>

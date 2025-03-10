@@ -32,6 +32,7 @@ class CustomerInvoice(BaseModel):
 	class Meta:
 		permissions = (
 			("view_my_invoices", "Can view assigned invoices"),
+			("generate_customerinvoice", "Can generate customer invoice")
 		)
 
 class CustomerInvoiceDetailTemplate(BaseModel):

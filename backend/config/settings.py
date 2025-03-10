@@ -30,7 +30,8 @@ USE_HTTPS = False
 
 ALLOWED_HOSTS = ['*']
 
-TESTING = ('test' == sys.argv[1]) if sys.argv else False
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+BACKEND_URL = os.environ.get('BACKEND_URL', 'http://127.0.0.1:8000')
 
 # Append module dir
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
@@ -129,6 +130,11 @@ DATABASES = {
 	}
 }
 
+
+try:
+	from .settings_dev import *
+except ImportError:
+	pass
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -243,8 +249,3 @@ DEBUG_TOOLBAR_CONFIG = {
 	'IS_RUNNING_TESTS': False,
 	'SHOW_TOOLBAR_CALLBACK': lambda r: True,
 }
-
-try:
-	from .settings_dev import *
-except ImportError:
-	pass

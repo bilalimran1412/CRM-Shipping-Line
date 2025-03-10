@@ -45,7 +45,7 @@ class ViewSet(viewsets.ViewSet):
         customers = User.objects.filter(vehicle__isnull=False).distinct().annotate(
             total=Count('vehicle'),
             delivered=Count('vehicle', filter=Q(vehicle__status__status__status_type='complete')),
-            not_delivered=Count('vehicle', filter=Q(vehicle__status__status__status_type='complete'))
+            not_delivered=Count('vehicle', filter=Q(vehicle__status__status__status_type='initial'))
         )
         
         customers_data = [{
@@ -62,7 +62,7 @@ class ViewSet(viewsets.ViewSet):
         unassigned_vehicles = {
             "total": Vehicle.objects.filter(customer__isnull=True).count(),
             "delivered": Vehicle.objects.filter(customer__isnull=True, status__status__status_type='complete').count(),
-            "not_delivered": Vehicle.objects.filter(customer__isnull=True, status__status__status_type='complete').count()
+            "not_delivered": Vehicle.objects.filter(customer__isnull=True, status__status__status_type='initial').count()
         }
 
         # Get user finances

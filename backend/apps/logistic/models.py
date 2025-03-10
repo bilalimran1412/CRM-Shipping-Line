@@ -161,6 +161,11 @@ class Invoice(BaseModel):
 	template = models.CharField(max_length=255, default="MultiVehicleInvoice", null=True, blank=True)
 
 	objects = InvoiceQuerySet.as_manager()
+	
+	class Meta:
+		permissions = (
+			("generate_invoice", "Can generate invoice"),
+		)
 
 class InvoiceVehicle(BaseModel):
 	invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='vehicles')
