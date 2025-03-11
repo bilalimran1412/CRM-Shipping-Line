@@ -93,7 +93,7 @@ export default function View() {
                         <TableCell>{translate('vehicle.form.manufacturer')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.vehicle.manufacturer}
+                            {detail?.vehicle?.manufacturer}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -101,7 +101,7 @@ export default function View() {
                         <TableCell>{translate('vehicle.form.model')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.vehicle.model}
+                            {detail?.vehicle?.model}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -109,7 +109,7 @@ export default function View() {
                         <TableCell>{translate('vehicle.form.vin')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.vehicle.vin}
+                            {detail?.vehicle?.vin}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -117,8 +117,8 @@ export default function View() {
                         <TableCell>{translate('vehicle.form.customer')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2"
-                                      sx={detail.vehicle.customer?.full_name ? undefined : {color: `error.main`}}>
-                            {detail.vehicle.customer?.full_name ?? translate('not_specified')}
+                                      sx={detail?.vehicle?.customer?.full_name ? undefined : {color: `error.main`}}>
+                            {detail?.vehicle?.customer?.full_name ?? translate('not_specified')}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -126,9 +126,9 @@ export default function View() {
                         <TableCell>{translate('vehicle.form.destination')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2"
-                                      sx={detail.vehicle.destination ? undefined : {color: `error.main`}}>
-                            {detail.vehicle.destination ?
-                              `${detail.vehicle.destination.country?.[currentLang.value]}, ${detail.vehicle.destination.city?.[currentLang.value]}`
+                                      sx={detail?.vehicle?.destination ? undefined : {color: `error.main`}}>
+                            {detail?.vehicle?.destination ?
+                              `${detail?.vehicle?.destination?.country?.[currentLang.value]}, ${detail?.vehicle?.destination?.city?.[currentLang.value]}`
                               : translate('not_specified')
                             }
 
@@ -139,8 +139,8 @@ export default function View() {
                         <TableCell>{translate('vehicle.table.status')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2"
-                                      sx={detail.vehicle.status ? undefined : {color: `error.main`}}>
-                            {detail.vehicle.status?.status?.name?.[currentLang.value] ?? translate('not_specified')}
+                                      sx={detail?.vehicle?.status ? undefined : {color: `error.main`}}>
+                            {detail?.vehicle?.status?.status?.name?.[currentLang.value] ?? translate('not_specified')}
 
                           </Typography>
                         </TableCell>
@@ -161,7 +161,7 @@ export default function View() {
                         <TableCell>ID</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.id}
+                            {detail?.id}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -169,7 +169,7 @@ export default function View() {
                         <TableCell>{translate('my-vehicle-task.table.task_type')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2">
-                            {detail.task_type.name[currentLang.value]}
+                            {detail?.task_type?.name}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -184,8 +184,8 @@ export default function View() {
                       <TableRow>
                         <TableCell>{translate('my-vehicle-task.table.note')}</TableCell>
                         <TableCell>
-                          <Typography variant="subtitle2" sx={detail.note ? undefined : {color: `error.main`}}>
-                            {detail.note ?? translate('not_specified')}
+                          <Typography variant="subtitle2" sx={detail?.note ? undefined : {color: `error.main`}}>
+                            {detail?.note ?? translate('not_specified')}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -193,7 +193,7 @@ export default function View() {
                         <TableCell>{translate('my-vehicle-task.table.created_at')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2" sx={{color: `info.main`}}>
-                            {moment(new Date(detail.created_at)).format('DD/MM/YYYY HH:mm')}
+                            {moment(new Date(detail?.created_at)).format('DD/MM/YYYY HH:mm')}
                           </Typography>
                         </TableCell>
                       </TableRow>

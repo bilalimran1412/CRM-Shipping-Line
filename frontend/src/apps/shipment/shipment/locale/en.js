@@ -25,7 +25,7 @@ const en = {
       vehicle_without_current_shipment_type: 'Vehicles without current Shipment Type',
       submit: 'Submit',
     },
-    vehicle_list: 'Vehicle list',
+    name: 'Name',
     shipment_type: 'Shipment type',
     company: 'Transport company',
     datetime: 'Date and time',

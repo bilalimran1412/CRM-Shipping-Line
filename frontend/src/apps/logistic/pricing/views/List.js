@@ -97,13 +97,13 @@ export default function PageOne() {
               name="type"
               label={translate('pricing.filter.type')}
               options={filterFormData?.type?.map?.(({id, name}) => ({
-                label: name[currentLang.value],
+                label: name,
                 value: id,
               }))}
               multiple
               fullWidth
               filterSelectedOptions
-              onChange={value => onFilterChange('type', value.join(','))}
+              onChange={value => onFilterChange('type', value.map(v => v.value).join(','))}
               size={'small'}
             />
           </Grid>

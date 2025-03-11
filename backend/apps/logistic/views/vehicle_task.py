@@ -94,6 +94,9 @@ class ViewSet(viewsets.ModelViewSet):
 	@action(methods=['GET'], detail=False, url_path='my')
 	def my_tasks(self, request):
 		queryset = self.get_queryset().filter(assigned_to=request.user)
+		for backend in list(self.filter_backends):
+			queryset = backend().filter_queryset(self.request, queryset, self)
+			
 		page = self.paginate_queryset(queryset)
 		
 		if page is not None:
@@ -103,4 +106,12 @@ class ViewSet(viewsets.ModelViewSet):
 		serializer = VehicleTaskListSerializer(queryset, many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+	@action(methods=['GET'], detail=False, url_path='my/(?P<task_pk>[0-9]+)')  # Only matches integers
+	def my_task(self, request, task_pk):
+		instance = get_object_or_404(
+			VehicleTask.objects.select_related('task_type', 'vehicle'),
+			pk=task_pk,
+			assigned_to=request.user
+		)	
+		data = VehicleTaskSerializer(instance, context={'detail': True})
+		return Response(data.data, status=status.HTTP_200_OK)

@@ -95,7 +95,7 @@ export default function PageOne() {
               multiple
               fullWidth
               filterSelectedOptions
-              onChange={value => onFilterChange('status', value.map((value) => value).join(','))}
+              onChange={value => onFilterChange('status', value.map(v => v.value).join(','))}
               size={'small'}
             />
           </Grid>
