@@ -45,7 +45,7 @@ class CustomerInvoiceDetailTemplateItem(BaseModel):
 	description = models.TextField()
 
 class CustomerInvoicePayment(BaseModel):
-	invoice = models.ForeignKey('CustomerInvoice', on_delete=models.PROTECT)
+	invoice = models.ForeignKey('CustomerInvoice', on_delete=models.CASCADE)
 	datetime = models.DateTimeField(default=datetime.datetime.now)
 	description = models.TextField(null=True, blank=True)
 	currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD')
@@ -54,7 +54,7 @@ class CustomerInvoicePayment(BaseModel):
 	amount_in_default = models.DecimalField(max_digits=10, decimal_places=2)
 
 class CustomerInvoiceItem(BaseModel):
-	invoice = models.ForeignKey('CustomerInvoice', on_delete=models.PROTECT)
+	invoice = models.ForeignKey('CustomerInvoice', on_delete=models.CASCADE)
 	description = models.TextField(null=True, blank=True)
 	currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD')
 	exchange_rate = models.DecimalField(max_digits=10, decimal_places=6, default=1.0)

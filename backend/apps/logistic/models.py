@@ -41,7 +41,7 @@ class Vehicle(BaseModel):
 	characteristics = models.JSONField(default=dict)
 	customer = models.ForeignKey('user.User', on_delete=models.SET_NULL, null=True, blank=True)
 
-	destination = models.ForeignKey('DeliveryDestination', null=True, blank=True, on_delete=models.PROTECT)
+	destination = models.ForeignKey('DeliveryDestination', null=True, blank=True, on_delete=models.SET_NULL)
 	status = models.ForeignKey('DeliveryHistory', null=True, blank=True, on_delete=models.SET_NULL,
 	                           related_name='vehicles')
 
@@ -57,7 +57,7 @@ class Vehicle(BaseModel):
 class DeliveryDestination(BaseModel):
 	country = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
-	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
+	icon = models.ForeignKey('main.File', on_delete=models.SET_NULL, blank=True, null=True)
 
 	objects = DeliveryDestinationManager()
 
@@ -66,8 +66,8 @@ class DeliveryDestination(BaseModel):
 
 
 class Shipment(BaseModel):
-	shipment_type = models.ForeignKey('ShipmentType', on_delete=models.PROTECT)
-	company = models.ForeignKey('ShipmentCompany', on_delete=models.PROTECT, null=True, blank=True)
+	shipment_type = models.ForeignKey('ShipmentType', on_delete=models.CASCADE)
+	company = models.ForeignKey('ShipmentCompany', on_delete=models.SET_NULL, null=True, blank=True)
 	datetime = models.DateTimeField(default=datetime.datetime.now)
 	complete_datetime = models.DateTimeField(null=True, blank=True)
 	completed = models.BooleanField(default=False)
@@ -86,29 +86,29 @@ class Shipment(BaseModel):
 class ShipmentDocument(BaseModel):
 	name = models.CharField(max_length=255)
 	shipment = models.ForeignKey('Shipment', on_delete=models.CASCADE, related_name='documents')
-	file = models.ForeignKey('main.File', on_delete=models.PROTECT)
+	file = models.ForeignKey('main.File', on_delete=models.CASCADE)
 
 
 class ShipmentVehicle(BaseModel):
 	shipment = models.ForeignKey('Shipment', on_delete=models.CASCADE, related_name='vehicles')
-	vehicle = models.ForeignKey('Vehicle', on_delete=models.PROTECT)
+	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
 
 
 class ShipmentCompany(BaseModel):
 	name = models.CharField(max_length=50)
 	shipment_type = models.ManyToManyField('ShipmentType')
-	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
+	icon = models.ForeignKey('main.File', on_delete=models.SET_NULL, blank=True, null=True)
 
 	objects = ShipmentCompanyQuerySet.as_manager()
 
 
 class ShipmentType(BaseModel):
 	name = models.CharField(max_length=50)
-	initial_status = models.ForeignKey('DeliveryStatus', on_delete=models.PROTECT)
-	complete_status = models.ForeignKey('DeliveryStatus', on_delete=models.PROTECT,
+	initial_status = models.ForeignKey('DeliveryStatus', on_delete=models.SET_NULL, null=True, blank=True)
+	complete_status = models.ForeignKey('DeliveryStatus', on_delete=models.SET_NULL,
 	                                    related_name='complete_status', null=True, blank=True)
 
-	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
+	icon = models.ForeignKey('main.File', on_delete=models.SET_NULL, blank=True, null=True)
 
 	objects = ShipmentTypeManager()
 
@@ -116,15 +116,15 @@ class ShipmentType(BaseModel):
 class DeliveryStatus(BaseModel):
 	name = models.CharField(max_length=255)
 	status_type = models.CharField(max_length=50, choices=DELIVERY_STATUS_TYPE, null=True, blank=True)
-	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
+	icon = models.ForeignKey('main.File', on_delete=models.SET_NULL, blank=True, null=True)
 
 	objects = DeliveryStatusManager()
 
 
 class DeliveryHistory(BaseModel):
 	shipment = models.ForeignKey('Shipment', on_delete=models.CASCADE, null=True, blank=True)
-	vehicle = models.ForeignKey('Vehicle', on_delete=models.PROTECT, related_name='history')
-	status = models.ForeignKey('DeliveryStatus', on_delete=models.PROTECT)
+	vehicle = models.ForeignKey('Vehicle', on_delete=models.SET_NULL, related_name='history', null=True, blank=True)
+	status = models.ForeignKey('DeliveryStatus', on_delete=models.SET_NULL, null=True, blank=True)
 	datetime = models.DateTimeField(default=datetime.datetime.now)
 
 
@@ -135,9 +135,9 @@ class VehiclePhotoCategory(BaseModel):
 
 
 class VehiclePhoto(BaseModel):
-	category = models.ForeignKey('VehiclePhotoCategory', on_delete=models.PROTECT)
+	category = models.ForeignKey('VehiclePhotoCategory', on_delete=models.CASCADE)
 	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, related_name='photos')
-	file = models.ForeignKey('main.File', on_delete=models.PROTECT)
+	file = models.ForeignKey('main.File', on_delete=models.CASCADE)
 
 	objects = VehiclePhotoCategoryManager()
 
@@ -145,11 +145,11 @@ class VehiclePhoto(BaseModel):
 class VehicleDocument(BaseModel):
 	name = models.CharField(max_length=255)
 	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, related_name='documents')
-	file = models.ForeignKey('main.File', on_delete=models.PROTECT)
+	file = models.ForeignKey('main.File', on_delete=models.CASCADE)
 
 
 class LogisticConfig(BaseModel):
-	initial_status = models.OneToOneField('DeliveryStatus', on_delete=models.PROTECT)
+	initial_status = models.OneToOneField('DeliveryStatus', on_delete=models.CASCADE)
 
 	objects = AppConfigQuerySet()
 	history = HistoricalRecords()
@@ -169,18 +169,18 @@ class Invoice(BaseModel):
 
 class InvoiceVehicle(BaseModel):
 	invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='vehicles')
-	vehicle = models.ForeignKey('Vehicle', on_delete=models.PROTECT)
+	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
 
 class VehicleTaskType(BaseModel):
 	name = models.CharField(max_length=255)
 	assigned_to = models.ManyToManyField('user.User')
-	icon = models.ForeignKey('main.File', on_delete=models.PROTECT, blank=True, null=True)
+	icon = models.ForeignKey('main.File', on_delete=models.SET_NULL, blank=True, null=True)
 
 	objects = VehicleTaskTypeQuerySet.as_manager()
 
 class VehicleTask(BaseModel):
 	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, related_name='tasks')
-	task_type = models.ForeignKey('VehicleTaskType', on_delete=models.PROTECT)
+	task_type = models.ForeignKey('VehicleTaskType', on_delete=models.CASCADE)
 	assigned_to = models.ManyToManyField('user.User')
 	note = models.TextField(null=True, blank=True)
 	status = models.CharField(max_length=50, choices=TASK_STATUS, default='pending')
@@ -201,9 +201,9 @@ class PricingType(BaseModel):
 		return self.name
 
 class Pricing(BaseModel):
-	type = models.ForeignKey('PricingType', on_delete=models.PROTECT)
+	type = models.ForeignKey('PricingType', on_delete=models.CASCADE)
 	date = models.DateField()
-	file = models.ForeignKey('main.File', on_delete=models.PROTECT)
+	file = models.ForeignKey('main.File', on_delete=models.CASCADE)
 
 	objects = PricingQuerySet.as_manager()
 

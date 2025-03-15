@@ -33,6 +33,7 @@ const en = {
   total_vehicles: 'Total vehicles',
   total_customers: 'Total customers',
   total_shipments: 'Total shipments',
+  vehicle_count: "Vehicle Count"
 }
 
 export default en

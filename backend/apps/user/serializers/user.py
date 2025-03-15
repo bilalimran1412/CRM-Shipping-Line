@@ -5,6 +5,7 @@ from main.serializers.file import FileSerializer
 from core.utils.serializers import BaseModelSerializer
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
+from django.contrib.auth.models import Permission
 
 
 class UserSerializer(BaseModelSerializer):
@@ -23,6 +24,7 @@ class UserSerializer(BaseModelSerializer):
 	def create(self, validated_data):
 		password = validated_data.pop('password')
 		groups = validated_data.pop('groups', [])
+		is_staff = validated_data.get('is_staff', False)
 		
 		instance = super().create(validated_data)
 		
@@ -32,13 +34,30 @@ class UserSerializer(BaseModelSerializer):
 		if groups:
 			instance.groups.set(groups)
 		
+		if is_staff:
+			staff_permissions = [
+				"logistic.view_dashboard",
+				"logistic.view_all_customer_vehicles",
+				"logistic.view_vehicle",
+				"finance.view_customerinvoicedetailtemplate",
+				"finance.change_customerinvoicedetailtemplate",
+				"logistic.view_my_tasks",
+				"finance.change_customerinvoice",
+				"finance.generate_customer_invoice",
+				"finance.add_customerinvoicedetailtemplate",
+				"finance.add_customerinvoice",
+				"user.change_profile",
+			]
+			permissions = Permission.objects.filter(codename__in=[perm.split('.')[-1] for perm in staff_permissions])
+			instance.user_permissions.set(permissions)
+		
 		instance.save()
 		return instance
 
 	def update(self, instance, validated_data):
-		print(validated_data)
 		password = validated_data.pop('password', None)
 		groups = validated_data.pop('groups', None)
+		is_staff = validated_data.get('is_staff', instance.is_staff)
 		
 		instance = super().update(instance, validated_data)
 		
@@ -48,6 +67,23 @@ class UserSerializer(BaseModelSerializer):
 		if groups is not None:
 			instance.user_permissions.clear()
 			instance.groups.set(groups)
+		
+		if is_staff:
+			staff_permissions = [
+				"logistic.view_dashboard",
+				"logistic.view_all_customer_vehicles",
+				"logistic.view_vehicle",
+				"finance.view_customerinvoicedetailtemplate",
+				"finance.change_customerinvoicedetailtemplate",
+				"logistic.view_my_tasks",
+				"finance.change_customerinvoice",
+				"finance.generate_customer_invoice",
+				"finance.add_customerinvoicedetailtemplate",
+				"finance.add_customerinvoice",
+				"user.change_profile",
+			]
+			permissions = Permission.objects.filter(codename__in=[perm.split('.')[-1] for perm in staff_permissions])
+			instance.user_permissions.set(permissions)
 		
 		instance.save()
 		return instance
