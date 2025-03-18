@@ -23,14 +23,28 @@ SHIPMENT_STATUS = [
 	('completed', 'completed'),
 ]
 DELIVERY_STATUS_TYPE = [
-	('initial', 'initial'),
-	('complete', 'complete'),
+    ('on_hand', 'ON HAND'),
+    ('manifest', 'MANIFEST'),
+    ('on_the_way', 'ON THE WAY'),
+    ('shipped', 'SHIPPED'),
+    ('picked_up', 'PICKED UP'),
+    ('arrived', 'ARRIVED'),
+    ('handed_over', 'HANDED OVER'),
 ]
 TASK_STATUS = [
 	('pending', 'pending'),
 	('in_progress', 'in_progress'),
 	('completed', 'completed'),
 	('canceled', 'canceled'),
+]
+VEHICLE_TITLE_TYPE = [
+    ('no_title', 'NO TITLE'),
+    ('exportable', 'EXPORTABLE'),
+    ('pending', 'PENDING'),
+    ('bos', 'BOS'),
+    ('lien', 'LIEN'),
+    ('mv907', 'MV907'),
+    ('rejected', 'REJECTED'),
 ]
 
 
@@ -44,6 +58,10 @@ class Vehicle(BaseModel):
 	destination = models.ForeignKey('DeliveryDestination', null=True, blank=True, on_delete=models.SET_NULL)
 	status = models.ForeignKey('DeliveryHistory', null=True, blank=True, on_delete=models.SET_NULL,
 	                           related_name='vehicles')
+	container_no = models.CharField(max_length=50, null=True, blank=True)
+	
+	is_key = models.BooleanField(default=False)
+	is_hybrid = models.BooleanField(default=False)
 
 	objects = VehicleQuerySet.as_manager()
 
@@ -147,6 +165,14 @@ class VehicleDocument(BaseModel):
 	vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, related_name='documents')
 	file = models.ForeignKey('main.File', on_delete=models.CASCADE)
 
+class VehicleTitle(BaseModel):
+	vehicle = models.OneToOneField('Vehicle', on_delete=models.CASCADE, related_name='title')
+	is_title = models.BooleanField(default=False)
+	title_type = models.CharField(max_length=50, choices=VEHICLE_TITLE_TYPE, null=True, blank=True)
+	title_received_date = models.DateField(null=True, blank=True)
+	title_no = models.CharField(max_length=100, null=True, blank=True)
+	title_state = models.CharField(max_length=100, null=True, blank=True)
+	title_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 class LogisticConfig(BaseModel):
 	initial_status = models.OneToOneField('DeliveryStatus', on_delete=models.CASCADE)

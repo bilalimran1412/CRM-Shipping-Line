@@ -11,7 +11,11 @@ const validator = (mode, translate) => {
     }),
     history: yup.array().of(yup.object().shape({
       status: yup.string().required(translate('vehicle.validator.history.status_required')).nullable(),
-      datetime: yup.string().required(translate('vehicle.validator.history.datetime_required')).nullable(),
+      datetime: yup.string()
+        .required(translate('vehicle.validator.history.datetime_required'))
+        .test('has-time', translate('vehicle.validator.history.datetime_must_include_time'), 
+          value => value && value.includes(':'))
+        .nullable(),
     })),
     documents: yup.array().of(yup.object().shape({
       name: yup.string().required(translate('vehicle.validator.documents.name_required')).nullable(),

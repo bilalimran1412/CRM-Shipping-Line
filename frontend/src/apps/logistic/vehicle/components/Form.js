@@ -114,6 +114,36 @@ export default function Form({isEdit = false, data, formData, onSubmit, isSubmit
                     isOptionEqualToValue={(option, value) => option.value === value.value}
                     // onChange={value => onFilterChange('status', value.map(({value}) => value).join(','))}
                   />
+                  
+                  <RHFTextField
+                    name="container_no"
+                    label={translate('vehicle.form.container_no')}
+                    size={'small'}
+                  />
+                  <RHFAutocomplete
+                    name="is_key"
+                    label={translate('vehicle.form.is_key')}
+                    size={'small'}
+                    options={[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value}
+                  />
+                  <RHFAutocomplete
+                    name="is_hybrid"
+                    label={translate('vehicle.form.is_hybrid')}
+                    size={'small'}
+                    options={[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value}
+                  />
                 </Box>
               </Card>
             </Grid>
@@ -154,6 +184,70 @@ export default function Form({isEdit = false, data, formData, onSubmit, isSubmit
                     size={'small'}
                   />
 
+                </Box>
+              </Card>
+              <Card sx={{p: 3, mt: 2}}>
+                <Typography variant="h6" sx={{color: 'text.disabled', mb: 2}}>
+                  {translate('vehicle.form.title')}
+                </Typography>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(2, 1fr)',
+                  }}
+                >
+                  <RHFAutocomplete
+                    name="title.is_title"
+                    label={translate('vehicle.form.is_title')}
+                    size={'small'}
+                    options={[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value}
+                  />
+                  <RHFAutocomplete
+                    name="title.title_type"
+                    label={translate('vehicle.form.title_type')}
+                    size={'small'}
+                    options={formData?.title_type?.map?.((item) => ({
+                      label: item[1],
+                      value: item[0]
+                    })) || []}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value}
+                  />
+                  <RHFTextField
+                    name="title.title_received_date"
+                    label={translate('vehicle.form.title_received_date')}
+                    type="date"
+                    size={'small'}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <RHFTextField
+                    name="title.title_no"
+                    label={translate('vehicle.form.title_no')}
+                    size={'small'}
+                  />
+                  <RHFTextField
+                    name="title.title_state"
+                    label={translate('vehicle.form.title_state')}
+                    size={'small'}
+                  />
+                  <RHFTextField
+                    name="title.title_amount"
+                    label={translate('vehicle.form.title_amount')}
+                    type="number"
+                    size={'small'}
+                  />
                 </Box>
               </Card>
               <Card sx={{p: 3, mt: 2}}>

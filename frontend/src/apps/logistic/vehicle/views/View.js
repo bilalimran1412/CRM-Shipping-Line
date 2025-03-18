@@ -151,8 +151,31 @@ export default function View() {
                         <TableCell>{translate('vehicle.table.status')}</TableCell>
                         <TableCell>
                           <Typography variant="subtitle2" sx={detail.status ? undefined : {color: `error.main`}}>
-                            {detail.status?.status?.name?.[currentLang.value] ?? translate('not_specified')}
-
+                            {detail.status?.status?.status_type.toUpperCase().replace(/_/g, ' ') ?? translate('not_specified')}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.container_no')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.container_no || '-'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.is_key')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.is_key ? 'Yes' : 'No'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.is_hybrid')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.is_hybrid ? 'Yes' : 'No'}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -201,6 +224,70 @@ export default function View() {
                         <TableCell>
                           <Typography variant="subtitle2">
                             {detail.characteristics?.buyer_id}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Scrollbar>
+              </TableContainer>
+
+              <Typography variant="h6" sx={{color: 'text.disabled', mb: 2, mt: 2}}>
+                {translate('vehicle.form.title')}
+              </Typography>
+              <TableContainer sx={{overflow: 'unset'}} className={'table-zebra-bordered'}>
+                <Scrollbar>
+                  <Table size={'small'}>
+                    <colgroup>
+                      <col width={'40%'}/>
+                      <col width={'60%'}/>
+                    </colgroup>
+                    <TableBody className={themeMode === 'dark' ? 'dark' : 'light'}>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.is_title')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.is_title ? 'Yes' : 'No'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.title_type')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.title_type.toUpperCase().replace(/_/g, ' ') || '-'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.title_received_date')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.title_received_date || '-'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.title_no')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.title_no || '-'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.title_state')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.title_state || '-'}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('vehicle.form.title_amount')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail.title?.title_amount || '-'}
                           </Typography>
                         </TableCell>
                       </TableRow>

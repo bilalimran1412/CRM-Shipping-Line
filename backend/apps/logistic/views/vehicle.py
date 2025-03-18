@@ -11,7 +11,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from user.models import User
 from ..filterset import VehicleFilterSet
-from ..models import Vehicle, DeliveryDestination, DeliveryStatus, VehiclePhotoCategory, LogisticConfig
+from ..models import Vehicle, DeliveryDestination, DeliveryStatus, VehiclePhotoCategory, LogisticConfig, VEHICLE_TITLE_TYPE
 from ..serializers import (
 	VehicleSerializer,
 	DeliveryDestinationSerializer,
@@ -83,11 +83,13 @@ class ViewSet(viewsets.ModelViewSet):
 		vehicle_photo_category = VehiclePhotoCategorySerializer(vehicle_photo_category_qs, many=True)
 		customer_qs = User.objects.all()
 		customer = CustomerSerializer(customer_qs, many=True)
+		title_type = VEHICLE_TITLE_TYPE
 		data = {
 			"destination": destinations.data,
 			"status": delivery_status.data,
 			"vehicle_photo_category": vehicle_photo_category.data,
 			"customer": customer.data,
+			"title_type": title_type,
 		}
 
 		return data

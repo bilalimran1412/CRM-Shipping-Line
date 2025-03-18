@@ -54,6 +54,19 @@ export default function UserEditPage() {
       ...values,
       photos: values?.photos?.map?.(item => ({...item, file: item.file.id})) || [],
       documents: values?.documents?.map?.(item => ({...item, file: item.file.id})) || [],
+      // Format history datetime to ISO format if it exists
+      history: values?.history?.map?.(item => {
+        if (!item.datetime) return item;
+        try {
+          const dateObj = new Date(item.datetime);
+          return {
+            ...item,
+            datetime: isNaN(dateObj.getTime()) ? null : dateObj.toISOString()
+          };
+        } catch {
+          return { ...item, datetime: null };
+        }
+      }) || [],
       // customer: values?.customer?.value || null,
     }
     updateData(id, data, {

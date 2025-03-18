@@ -7,7 +7,7 @@ import Iconify from 'components/iconify';
 import {useLocales} from "locales";
 import {IconButtonAnimate} from "components/animate";
 import RHFDateTimeField from "components/hook-form/RHFDateTimeField";
-import {RHFAutocomplete} from "components/hook-form";
+import {RHFAutocomplete, RHFTextField} from "components/hook-form";
 
 export default function DeliveryHistory({formData}) {
   const {control, setValue, watch, getValues, resetField} = useFormContext();
@@ -41,7 +41,7 @@ export default function DeliveryHistory({formData}) {
             <Stack direction={{xs: 'column', md: 'row'}} spacing={2} sx={{width: 1}}>
               <RHFAutocomplete
                 name={`history.${index}.status`}
-                label={translate('vehicle.form.history.status')}
+                label={translate('vehicle.form.history.history')}
                 options={formData?.status?.map?.(({id, name}) => ({
                   label: name[currentLang.value],
                   value: id
@@ -49,6 +49,29 @@ export default function DeliveryHistory({formData}) {
                 fullWidth
                 filterSelectedOptions
                 size={'small'}
+                onChange={(id) => {
+                  // Find the corresponding status_type from formData
+                  const selectedStatus = formData?.status?.find(
+                    (status) => status.id === id
+                  );
+                  console.log(id, selectedStatus);
+                  setValue(`history.${index}.status_type`, selectedStatus.status_type || '');
+                }}
+              />
+              <RHFAutocomplete
+                name={`history.${index}.status`}
+                label={translate('vehicle.form.history.status')}
+                options={formData?.status?.map?.(({id, status_type}) => {
+                  // Get the capitalized display value based on status_type
+                  const capitalizedStatusType = status_type ? status_type.toUpperCase().replace(/_/g, ' ') : '';
+                  return {
+                    label: capitalizedStatusType,
+                    value: id
+                  };
+                }) || []}
+                fullWidth
+                size={'small'}
+                readOnly
               />
               <RHFDateTimeField
                 size={'small'}

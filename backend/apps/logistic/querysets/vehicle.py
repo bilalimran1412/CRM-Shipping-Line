@@ -41,6 +41,7 @@ class VehicleQuerySet(BaseQuerySet):
 			'photos__file',
 			'documents',
 			'documents__file',
+			'title',
 		]
 		return self.select_related(*select).prefetch_related(*prefetch)
 
@@ -54,5 +55,6 @@ class VehicleQuerySet(BaseQuerySet):
 			'photos__file',
 			'documents',
 			'documents__file',
+			'title',
 		]
 		return self.select_related(*select).prefetch_related(*prefetch)

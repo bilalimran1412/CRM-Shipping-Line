@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
-from ..models import Vehicle, DeliveryHistory, VehiclePhoto, VehicleDocument
+from ..models import Vehicle, DeliveryHistory, VehiclePhoto, VehicleDocument, VehicleTitle
 from core.utils.serializers import update_nested_instances
 from .customer import CustomerSerializer
 from .destination import DeliveryDestinationSerializer
@@ -75,12 +75,19 @@ class VehiclePhotoSerializer(BaseModelSerializer):
 			'id', 'category', 'file'
 		)
 
+class VehicleTitleSerializer(BaseModelSerializer):
+	class Meta:
+		model = VehicleTitle
+		fields = (
+			'id', 'is_title' , 'title_type', 'title_received_date', 'title_no', 'title_state', 'title_amount',
+		)
 
 class VehicleSerializer(BaseModelSerializer):
 	characteristics = CharacteristicsSerializer()
 	history = DeliveryHistorySerializer(many=True)
 	photos = VehiclePhotoSerializer(many=True)
 	documents = VehicleDocumentSerializer(many=True)
+	title = VehicleTitleSerializer()
 
 	def to_representation(self, instance):
 		if self.context.get('detail', None):
@@ -89,6 +96,7 @@ class VehicleSerializer(BaseModelSerializer):
 			self.fields['destination'] = DeliveryDestinationSerializer()
 			self.fields['history'] = DeliveryHistorySerializer(many=True, context={"detail": True})
 			self.fields['photos'] = VehiclePhotoSerializer(many=True, context={"detail": True})
+			self.fields['title'] = VehicleTitleSerializer(context={"detail": True})
 
 		return super().to_representation(instance)
 
@@ -96,9 +104,15 @@ class VehicleSerializer(BaseModelSerializer):
 		history_items = validated_data.pop('history', [])
 		photos = validated_data.pop('photos', [])
 		documents = validated_data.pop('documents', [])
+		title_data = validated_data.pop('title', None)
+
 		try:
 			with transaction.atomic():
 				vehicle = Vehicle.objects.create(**validated_data)
+
+				# Create vehicle title if provided
+				if title_data:
+					VehicleTitle.objects.create(vehicle=vehicle, **title_data)
 
 				# Создание записей в истории
 				for history in history_items:
@@ -125,12 +139,23 @@ class VehicleSerializer(BaseModelSerializer):
 		history_items = validated_data.pop('history', [])
 		photos = validated_data.pop('photos', [])
 		documents = validated_data.pop('documents', [])
+		title_data = validated_data.pop('title', None)
+
 		try:
 			with transaction.atomic():
 				instance = get_object_or_404(Vehicle, pk=instance.pk)
 				for attr, value in validated_data.items():
 					setattr(instance, attr, value)
 				instance.save()
+
+				# Update or create vehicle title
+				if title_data:
+					if hasattr(instance, 'title') and instance.title:
+						for attr, value in title_data.items():
+							setattr(instance.title, attr, value)
+						instance.title.save()
+					else:
+						VehicleTitle.objects.create(vehicle=instance, **title_data)
 
 				new_history, updated_history, deleted_history_ids = update_nested_instances(
 					instance.history.all(), history_items, DeliveryHistory
@@ -177,12 +202,13 @@ class VehicleSerializer(BaseModelSerializer):
 		model = Vehicle
 		fields = (
 			'id', 'manufacturer', 'model', 'vin', 'characteristics', 'customer', 'destination', 'status',
-			'history', 'photos', 'documents'
+			'history', 'photos', 'documents', 'title', 'is_key', 'is_hybrid', 'container_no'
 		)
 		extra_kwargs = {
 			"history": {"required": False, "allow_empty": True, "allow_null": True},
 			"photos": {"required": False, "allow_empty": True, "allow_null": True},
 			"documents": {"required": False, "allow_empty": True, "allow_null": True},
+			"title": {"required": False, "allow_empty": True, "allow_null": True},
 		}
 
 

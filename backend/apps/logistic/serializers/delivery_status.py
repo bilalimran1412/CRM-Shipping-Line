@@ -16,5 +16,5 @@ class DeliveryStatusSerializer(BaseModelSerializer, TranslationSerializerMixin):
 	class Meta:
 		model = DeliveryStatus
 		fields = (
-			'id', 'name', 'icon'
+			'id', 'name', 'icon', 'status_type'
 		)

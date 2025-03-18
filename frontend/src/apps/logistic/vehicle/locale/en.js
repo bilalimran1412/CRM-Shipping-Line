@@ -30,10 +30,21 @@ const en = {
     color: 'Color',
     lot_id: 'Lot ID',
     buyer_id: 'Buyer ID',
+    container_no: 'Container Number',
+    is_key: 'Keys',
+    is_hybrid: 'Hybrid',
+    title: 'Vehicle Title Information',
+    title_type: 'Title Type',
+    title_no: 'Title Number',
+    title_state: 'Title State',
+    title_received_date: 'Title Received Date',
+    title_amount: 'Title Amount',
+    is_title: 'Title',
     history: {
       title: 'Delivery History',
       status: 'Status',
       datetime: 'Date and Time',
+      history: 'History'
     },
     photos: {
       title: 'Photos',
@@ -72,6 +83,7 @@ const en = {
     history: {
       status_required: 'Status is required',
       datetime_required: 'Date and time are required',
+      datetime_must_include_time: 'Date and time must include time',
     },
     documents: {
       name_required: 'Name is required',
