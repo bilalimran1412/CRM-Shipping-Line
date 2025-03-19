@@ -45,8 +45,7 @@ export default function UserEditPage() {
   const onSubmit = values => {
     const data = {
       ...values,
-      // plan: values?.plan?.value || null,
-      // customer: values?.customer?.value || null,
+      icon: values?.icon?.id || null,
     }
     createData(data, {
       success: data => {
