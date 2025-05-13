@@ -104,6 +104,14 @@ export default function View() {
                           </Typography>
                         </TableCell>
                       </TableRow>
+                      <TableRow>
+                        <TableCell>{translate('delivery-status.form.status_type')}</TableCell>
+                        <TableCell>
+                          <Typography variant="subtitle2">
+                            {detail?.status_type?.toUpperCase().split('_').join(' ')}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
                 </Scrollbar>

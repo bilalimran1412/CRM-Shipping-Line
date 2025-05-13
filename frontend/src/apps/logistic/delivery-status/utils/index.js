@@ -38,6 +38,22 @@ export const getCols = ({translate, onClickAvatar, onDelete, checkPermission, cu
       pin: 'left',
     },
     {
+      id: 'status_type',
+      label: translate('delivery-status.table.status_type'),
+      align: 'left',
+      width: '300px',
+      render: row => {
+        // row.first_name
+        return (
+          <Typography variant="subtitle1">
+            {row.status_type?.toUpperCase().split('_').join(' ')}
+          </Typography>
+        )
+      },
+      sort: true,
+      pin: 'left',
+    },
+    {
       id: 'icon',
       label: translate('delivery-status.table.icon'),
       align: 'left',

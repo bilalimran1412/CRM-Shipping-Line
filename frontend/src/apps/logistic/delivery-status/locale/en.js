@@ -18,7 +18,7 @@ const en = {
   form: {
     main_data: 'Main Data',
     name: 'Name',
-
+    status_type: 'Status Type',
     edit_button: 'Save',
     create_button: 'Create',
   },
@@ -38,6 +38,7 @@ const en = {
   table: {
     name: 'Name',
     icon: 'Icon',
+    status_type: 'Status Type'
   },
   error: {
     create: 'Error occurred while creating data',

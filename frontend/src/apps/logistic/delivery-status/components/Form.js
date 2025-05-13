@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 // components
 import {useSnackbar} from 'components/snackbar'
-import FormProvider, {RHFTextField} from 'components/hook-form'
+import FormProvider, {RHFAutocomplete, RHFTextField} from 'components/hook-form'
 import {useLocales} from "locales";
 import validator from "../validators";
 import RHFFileUploadField from "components/hook-form/RHFFileUploadField";
@@ -78,6 +78,36 @@ export default function Form({isEdit = false, data, formData, onSubmit, isSubmit
                     )
                   })}
                 </Box>
+                <Box
+                  sx={{mt: 3}}
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(1, 1fr)',
+                  }}
+                >
+                  
+                  <RHFAutocomplete
+                    name="status_type"
+                    label={translate('delivery-status.form.status_type')}
+                    options={[
+                      { label: 'ON HAND', value: 'on_hand' },
+                      { label: 'MANIFEST', value: 'manifest' },
+                      { label: 'ON THE WAY', value: 'on_the_way' },
+                      { label: 'SHIPPED', value: 'shipped' },
+                      { label: 'PICKED UP', value: 'picked_up' },
+                      { label: 'ARRIVED', value: 'arrived' },
+                      { label: 'HANDED OVER', value: 'handed_over' }
+                    ]}
+                    fullWidth
+                    getOptionLabel={(option) => option.label}
+                    isOptionEqualToValue={(option, value) => option.value === value}
+                  />
+                </Box>
+                
+                                  
                 <Box
                   sx={{mt: 3}}
                   rowGap={3}
